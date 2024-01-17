@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import "./headerstyle.css";
+
 import InputBase from "@mui/material/InputBase";
 import { styled, withTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import { colors } from "@mui/material";
+import { Grid, Stack, Typography, Link } from "@mui/material";
 
 const Header = () => {
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -15,35 +15,104 @@ const Header = () => {
       paddingLeft: `calc(1em)`,
     },
   }));
+
   return (
-    <div className="container">
-      <div className="first-div">
-        <img src="./Logo.svg" className="logo" />
-        <div className="menus">
-          <h4 className=" items-padding hovered-menu-itemcolor">НҮҮР</h4>
-          <h4 className=" items-padding">ХООЛНЫ ЦЭС</h4>
-          <h4 className=" items-padding">ХҮРГЭЛТИЙН БҮС</h4>
-        </div>
-      </div>
-      <div className="with-search-second-div">
-        <div className="search-div  items-padding">
+    <Grid
+      container
+      direction="row"
+      justifyContent="space-around"
+      alignItems="center"
+    >
+      <Grid item display={"flex"} gap={"24px"} alignItems={"center"}>
+        <Grid padding={"7.178px 4.865px 7.055px 4.867px"}>
+          <img src="./Logo.svg" width={"41px"} height={"41px"} />
+        </Grid>
+        <Stack
+          direction="row"
+          display="flex"
+          gap={"8"}
+          alignItems={"center"}
+          fontSize="14px"
+          fontStyle="normal"
+          fontWeight={700}
+          lineHeight="20px"
+        >
+          <Link href={"./"} padding={"8px 16px 8px 16px"} color={"#18ba51"}>
+            НҮҮР
+          </Link>
+          <Link
+            href={"./"}
+            padding={"8px 16px 8px 16px"}
+            sx={{ color: "black" }}
+          >
+            ХООЛНЫ ЦЭС
+          </Link>
+          <Link
+            href={"./"}
+            padding={"8px 16px 8px 16px"}
+            sx={{ color: "black" }}
+          >
+            ХҮРГЭЛТИЙН БҮС
+          </Link>
+        </Stack>
+      </Grid>
+      <Grid
+        item
+        display="flex"
+        gap={"8px"}
+        alignItems={"center"}
+        fontSize="14px"
+        fontStyle="normal"
+        fontWeight={700}
+        lineHeight="20px"
+      >
+        <Grid
+          display={"flex"}
+          alignItems={"center"}
+          border={"1px solid black"}
+          borderRadius={"10px"}
+          width={"260px"}
+          height={"40px"}
+          padding={"8px 16px 8px 16px"}
+        >
           <SearchIcon />
           <StyledInputBase
-            placeholder="Search…"
+            placeholder="Хайх"
             inputProps={{ "aria-label": "search" }}
           />
-        </div>
-
-        <div className="header-with-svg-el items-padding">
+        </Grid>
+        <Grid
+          display="flex"
+          gap={"10px"}
+          alignItems={"center"}
+          padding={"8px 16px 8px 16px"}
+        >
           <img src="basket.svg" />
-          <h4>Сагс</h4>
-        </div>
-        <div className="header-with-svg-el items-padding">
+          <Typography
+            variant="h4"
+            fontSize="14px"
+            fontStyle="normal"
+            fontWeight={700}
+            lineHeight="20px"
+          >
+            Сагс
+          </Typography>
+        </Grid>
+        <Grid display="flex" gap={"10px"} padding={"8px 16px 8px 16px"}>
           <img src="profile.svg" />
-          <h4>Сагс</h4>
-        </div>
-      </div>
-    </div>
+          <Typography
+            variant="h4"
+            fontSize="14px"
+            fontStyle="normal"
+            fontWeight={700}
+            lineHeight="20px"
+            alignItems={"center"}
+          >
+            Нэвтрэх
+          </Typography>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 

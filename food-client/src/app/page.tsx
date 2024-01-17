@@ -1,23 +1,37 @@
-import { Grid, Button, Typography } from "@mui/material";
-import Header from "@/components/Header";
+"use client";
+import Cardcomp from "@/components/Cardcomp";
+import DeliveryOp from "@/components/DeliveryOp";
+import { Grid } from "@mui/material";
 
 export default function Home() {
+  const deliveryOpportunities = [
+    {
+      svgurl: "jornal.svg",
+      title: "Хүргэлтийн төлөв хянах",
+      desc: "Захиалга бэлтгэлийн явцыг хянах",
+    },
+    {
+      svgurl: "clock.svg",
+      title: "Шуурхай хүргэлт",
+      desc: "Захиалга бэлтгэлийн явцыг хянах",
+    },
+    {
+      svgurl: "healthy.svg",
+      title: "Эрүүл, баталгаат орц",
+      desc: " Захиалга бэлтгэлийн явцыг хянах",
+    },
+    {
+      svgurl: "jornal.svg",
+      title: "Хоолны өргөн сонголт",
+      desc: "Захиалга бэлтгэлийн явцыг хянах",
+    },
+  ];
   return (
-    <main>
-      {/* <Grid container>
-        <Grid item xs={12} md={6} className="typogrid">
-          <Typography variant="h2">Welcome Mui Framework</Typography>
-        </Grid>
-        <Grid item xs={12} md={6} className="clickgrid">
-          <Button variant="contained" color="primary">
-            Click
-          </Button>
-          <Button variant="contained" color="secondary">
-            Click
-          </Button>
-        </Grid>
-      </Grid> */}
-      <Header />
-    </main>
+    <Grid height={"80vh"} padding={"100px"}>
+      <Cardcomp />
+      {deliveryOpportunities.map(() => {
+        return <DeliveryOp />;
+      })}
+    </Grid>
   );
 }
