@@ -16,13 +16,13 @@ declare module "@mui/material/styles" {
 
 export const theme = createTheme({
   spacing: 4,
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#402B3A",
-    },
-    secondary: {
-      main: "#FF9BD2",
-    },
-  },
+  // palette: {
+  //   mode: "dark",
+  //   primary: {
+  //     main: "#402B3A",
+  //   },
+  //   secondary: {
+  //     main: "#FF9BD2",
+  //   },
+  // },
 });

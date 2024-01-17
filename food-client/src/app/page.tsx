@@ -1,9 +1,10 @@
 import { Grid, Button, Typography } from "@mui/material";
+import Header from "@/components/Header";
 
 export default function Home() {
   return (
     <main>
-      <Grid container>
+      {/* <Grid container>
         <Grid item xs={12} md={6} className="typogrid">
           <Typography variant="h2">Welcome Mui Framework</Typography>
         </Grid>
@@ -15,7 +16,8 @@ export default function Home() {
             Click
           </Button>
         </Grid>
-      </Grid>
+      </Grid> */}
+      <Header />
     </main>
   );
 }
