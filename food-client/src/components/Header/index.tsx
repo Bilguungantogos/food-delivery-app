@@ -5,6 +5,7 @@ import InputBase from "@mui/material/InputBase";
 import { styled, withTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import { Grid, Stack, Typography, Link } from "@mui/material";
+import Basket from "../Basket";
 
 const Header = () => {
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -81,23 +82,8 @@ const Header = () => {
             inputProps={{ "aria-label": "search" }}
           />
         </Grid>
-        <Grid
-          display="flex"
-          gap={"10px"}
-          alignItems={"center"}
-          padding={"8px 16px 8px 16px"}
-        >
-          <img src="basket.svg" />
-          <Typography
-            variant="h4"
-            fontSize="14px"
-            fontStyle="normal"
-            fontWeight={700}
-            lineHeight="20px"
-          >
-            Сагс
-          </Typography>
-        </Grid>
+        <Basket />
+
         <Grid display="flex" gap={"10px"} padding={"8px 16px 8px 16px"}>
           <img src="profile.svg" />
           <Typography

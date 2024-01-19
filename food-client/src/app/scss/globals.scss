@@ -1,0 +1,33 @@
+@import "mixin.scss";
+@import "variables.scss";
+
+//Mixin
+
+.wrapper {
+  background: rgb(255, 109, 255);
+  &-top {
+    @include backgroundColor(teal);
+    h1 {
+      color: $primary-color;
+    }
+  }
+  &-bottom {
+    @include backgroundColor(orange);
+    h1 {
+      color: $secondary-color;
+    }
+  }
+}
+
+.btn-primary {
+  @include button-bg(#45caff);
+}
+.btn-secondary {
+  @include button-bg(#45ff64);
+}
+.btn-success {
+  @include button-bg(#e7fe35);
+}
+.btn-error {
+  @include button-bg(#ff6c23);
+}

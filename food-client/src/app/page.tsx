@@ -2,6 +2,7 @@
 import Cardcomp from "@/components/Cardcomp";
 import DeliveryOp from "@/components/DeliveryOp";
 import { Grid } from "@mui/material";
+import Basket from "@/components/Basket";
 
 export default function Home() {
   const deliveryOpportunities = [
@@ -29,9 +30,7 @@ export default function Home() {
   return (
     <Grid height={"80vh"} padding={"100px"}>
       <Cardcomp />
-      {deliveryOpportunities.map(() => {
-        return <DeliveryOp />;
-      })}
+      <DeliveryOp />
     </Grid>
   );
 }
