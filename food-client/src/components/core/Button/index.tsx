@@ -22,10 +22,12 @@ export const Button = ({
         color="primary"
         variant={btnType}
         sx={{
-          p: 4,
-          fontSize: "1rem",
+          padding: "8px 16px 8px 16px",
+          fontSize: "16px",
+          fontWeight: "400",
+          height: "48px",
           color:
-            btnType === "outlined" || btnType === "text" ? "#18ba51" : "white",
+            btnType === "outlined" || btnType === "text" ? "#18BA51" : "white",
           border: btnType === "outlined" ? 1 : 0,
           borderColor: btnType === "outlined" ? "#18ba51" : "",
         }}

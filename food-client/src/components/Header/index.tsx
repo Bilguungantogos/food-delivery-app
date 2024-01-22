@@ -1,11 +1,18 @@
 "use client";
 import React from "react";
-
+import { useState } from "react";
 import InputBase from "@mui/material/InputBase";
 import { styled, withTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import { Grid, Stack, Typography, Link } from "@mui/material";
+import {
+  Grid,
+  Stack,
+  Typography,
+  Link,
+  Button as MuiButton,
+} from "@mui/material";
 import Basket from "../Basket";
+import LoginModal from "./LoginModal";
 
 const Header = () => {
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -16,6 +23,10 @@ const Header = () => {
       paddingLeft: `calc(1em)`,
     },
   }));
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <Grid
@@ -84,20 +95,23 @@ const Header = () => {
         </Grid>
         <Basket />
 
-        <Grid display="flex" gap={"10px"} padding={"8px 16px 8px 16px"}>
-          <img src="profile.svg" />
-          <Typography
-            variant="h4"
-            fontSize="14px"
-            fontStyle="normal"
-            fontWeight={700}
-            lineHeight="20px"
-            alignItems={"center"}
-          >
-            Нэвтрэх
-          </Typography>
+        <Grid padding={"8px 16px 8px 16px"}>
+          <MuiButton sx={{ display: "flex", gap: "10px" }} onClick={handleOpen}>
+            <img src="profile.svg" />
+            <Typography
+              variant="h4"
+              fontSize="14px"
+              fontStyle="normal"
+              fontWeight={700}
+              lineHeight="20px"
+              alignItems={"center"}
+            >
+              Нэвтрэх
+            </Typography>
+          </MuiButton>
         </Grid>
       </Grid>
+      {open && <LoginModal open={open} handleClose={handleClose} />}
     </Grid>
   );
 };

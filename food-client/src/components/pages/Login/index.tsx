@@ -6,7 +6,7 @@ import { Grid, Box, Typography, Stack } from "@mui/material";
 
 const LoginPage = () => {
   return (
-    <Grid>
+    <Grid mt="111px" mb="75px">
       <Box
         sx={{
           display: "flex",
@@ -14,9 +14,8 @@ const LoginPage = () => {
           flexDirection: "column",
           justifyContent: "center",
           margin: "auto ",
-          px: "2.1rem",
-          maxWidth: "450px",
-          height: "calc(100vh - 90px)",
+          padding: "32px",
+          maxWidth: "448px",
         }}
       >
         <Typography
@@ -26,17 +25,19 @@ const LoginPage = () => {
         >
           Нэвтрэх
         </Typography>
-        <Stack width="100%" sx={{ mb: "2rem" }}>
-          {/* <Input label="Имэйл" />
-          <Input label="Нууц үг" showPassword /> */}
-          {/* <Button label="Нууц үг сэргээх" btnType="text" /> */}
-          <Typography variant="button" align="right">
+        <Stack width="100%" sx={{ mb: "48px" }}>
+          <Input label="Имэйл" />
+          <Input label="Нууц үг" showPassword />
+          <Typography
+            align="right"
+            sx={{ fontSize: "14px", fontWeight: "400" }}
+          >
             Нууц үг сэргээх
           </Typography>
         </Stack>
 
         <Stack flex="row" width="100%" justifyContent="flex-end">
-          <Button label="Нэвтрэх" />
+          <Button label="Нэвтрэх" btnType="contained" />
         </Stack>
         <Stack sx={{ my: "2rem" }}>
           <Typography>Эсвэл</Typography>

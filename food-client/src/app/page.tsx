@@ -28,9 +28,17 @@ export default function Home() {
     },
   ];
   return (
-    <Grid height={"80vh"} padding={"100px"}>
+    <Grid
+      height={"80vh"}
+      padding={"120px"}
+      display={"flex"}
+      justifyContent={"space-between"}
+    >
       <Cardcomp />
-      <DeliveryOp />
+      <Cardcomp />
+      <Cardcomp />
+      <Cardcomp />
+      {/* <DeliveryOp /> */}
     </Grid>
   );
 }

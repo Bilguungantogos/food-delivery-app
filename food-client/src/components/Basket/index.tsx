@@ -100,12 +100,15 @@ export default function Basket() {
                   Хулуу, төмс, лууван , сонгино, цөцгийн тос, самрын үр
                 </Typography>
                 <Grid display={"flex"} gap={"5px"} alignItems={"center"}>
-                  <Button
-                    sx={{
-                      backgroundColor: "#18BA51",
-                    }}
-                  >
-                    <FaMinus width={"13px"} height={"14px"} color="white" />
+                  <Button>
+                    <FaMinus
+                      style={{
+                        backgroundColor: "#18BA51",
+                        padding: "30px",
+                        borderRadius: "20px",
+                        color: "white",
+                      }}
+                    />
                   </Button>
                   <Typography variant="h4" fontSize={"16px"}>
                     1
@@ -113,9 +116,10 @@ export default function Basket() {
                   <Button>
                     <FaPlus
                       style={{
-                        backgroundColor: "green",
+                        backgroundColor: "#18BA51",
                         padding: "30px",
-                        color: "#18BA51",
+                        borderRadius: "20px",
+                        color: "white",
                       }}
                     />
                   </Button>
@@ -129,7 +133,7 @@ export default function Basket() {
   );
 
   return (
-    <div>
+    <Grid>
       {(["right"] as const).map((anchor) => (
         <React.Fragment key={anchor}>
           <Button variant="text" onClick={toggleDrawer(anchor, true)}>
@@ -160,6 +164,6 @@ export default function Basket() {
           </Drawer>
         </React.Fragment>
       ))}
-    </div>
+    </Grid>
   );
 }

@@ -4,11 +4,22 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, Grid } from "@mui/material";
+import { useState } from "react";
+import BasketModal from "./BasketModal";
 
 const Cardcomp = () => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Grid sx={{ maxWidth: "282px", border: "none", position: "relative" }}>
-      <CardMedia component="img" image="unsplash_fdlZBWIP0aM.png" alt="" />
+      <CardMedia
+        component="img"
+        image="unsplash_fdlZBWIP0aM.png"
+        alt=""
+        onClick={handleOpen}
+      />
       <Grid
         position={"absolute"}
         top={"16px"}
@@ -44,6 +55,7 @@ const Cardcomp = () => {
           </Typography>
         </Grid>
       </Grid>
+      {open && <BasketModal open={open} handleClose={handleClose} />}
     </Grid>
   );
 };
