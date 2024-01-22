@@ -1,3 +1,4 @@
-export * from "@/components/core/Button";
-export * from "@/components/Header";
-export * from "@/components/Footer";
+export * from "./core/Button";
+export * from "./core/Input";
+export * from "./Header";
+export * from "./Footer";
