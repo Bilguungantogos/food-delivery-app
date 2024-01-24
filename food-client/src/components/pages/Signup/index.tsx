@@ -1,9 +1,22 @@
 "use client";
 
+import React, { useState } from "react";
 import { Input, Button } from "@/components";
 import { Grid, Box, Typography, Stack } from "@mui/material";
 
 const SignupPage = () => {
+  const [formUserData, setLoginUserData] = useState({
+    name: "",
+    email: "",
+    address: "",
+    password: "",
+    rePassword: "",
+  });
+
+  const changeFormUserData = (key: string, value: string) => {
+    setLoginUserData({ ...formUserData, [key]: value });
+  };
+  const handleSignupClick = () => {};
   return (
     <Grid mt="74px" mb="94px">
       <Box
@@ -25,8 +38,19 @@ const SignupPage = () => {
           Бүртгүүлэх
         </Typography>
         <Stack width="100%" sx={{ mb: "48px" }}>
-          <Input label="Нэр" />
-          <Input label="И-мэйл" />
+          <Input
+            label="Нэр"
+            onChange={(e) => {
+              console.log(e);
+              changeFormUserData(e.target.name, e.target.value);
+            }}
+          />
+          <Input
+            label="И-мэйл"
+            onChange={(e) => {
+              console.log(e);
+            }}
+          />
           <Input label="Хаяг" />
           <Input label="Нууц үг" showPassword />
           <Input label="Нууц үг давтах" showPassword />

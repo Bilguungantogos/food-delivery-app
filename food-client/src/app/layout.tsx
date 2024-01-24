@@ -11,9 +11,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        <ThemeProvider>{children}</ThemeProvider>
-        <Footer />
+        <ThemeProvider>
+          <Header />
+          <ThemeProvider>{children}</ThemeProvider>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
