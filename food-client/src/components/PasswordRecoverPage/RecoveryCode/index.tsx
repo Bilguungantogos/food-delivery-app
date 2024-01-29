@@ -1,9 +1,35 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { Input, Button } from "@/components";
-
+import axios from "axios";
+import { toast } from "react-toastify";
 import { Grid, Box, Typography, Stack, colors } from "@mui/material";
 
-const RecoveryCode = () => {
+interface IStepProps {
+  email: string;
+  otp: string;
+  handleNext: () => void;
+  handleChangeInput: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const RecoveryCode = ({
+  email,
+  handleNext,
+  otp,
+  handleChangeInput,
+}: IStepProps) => {
+  const handleSendOtp = async () => {
+    try {
+      const data = await axios.post("http://localhost:8080/verify/otp", {
+        email,
+        otp,
+      });
+      handleNext();
+    } catch (error) {
+      console.log(error);
+      toast.error("OTP илгэээхэд алдаа гарлаа.");
+    }
+  };
+
   return (
     <Grid mt="132px" mb="87px">
       <Box
@@ -31,10 +57,19 @@ const RecoveryCode = () => {
             Таны <span style={{ color: "#18BA51" }}>example@pinecone.mn</span>{" "}
             хаяг руу сэргээх код илгээх болно.
           </Typography>
-          <Input label="Имэйл" placeholder="Имэйл хаягаа оруулна уу" />
+          <Input
+            label="Имэйл"
+            name="otp"
+            placeholder="Код оруулна уу"
+            onChange={handleChangeInput}
+          />
         </Stack>
         <Stack flex="row" width="100%" justifyContent="flex-end">
-          <Button label="Үргэлжлүүлэх" btnType="contained" disabled />
+          <Button
+            label="Үргэлжлүүлэх"
+            btnType="contained"
+            onClick={handleSendOtp}
+          />
         </Stack>
       </Box>
     </Grid>

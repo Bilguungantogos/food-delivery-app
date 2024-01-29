@@ -4,6 +4,7 @@ import { connectDB } from "./config/db";
 import { authRoute } from "./router/authRoutes";
 import { userRoute } from "./router/userRoute";
 import { verifyRoute } from "./router/verifyRoute";
+import cors from "cors";
 
 import dotenv from "dotenv";
 
@@ -14,8 +15,8 @@ const app: Application = express();
 
 connectDB(MONGO_URI);
 
+app.use(cors());
 app.use(express.json());
-
 // app.use("/auth");
 app.use("/auth", authRoute);
 app.use("/users", userRoute);

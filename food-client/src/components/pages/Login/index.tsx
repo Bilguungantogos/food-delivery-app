@@ -28,12 +28,7 @@ const LoginPage = () => {
         <Stack width="100%" sx={{ mb: "48px" }}>
           <Input label="Имэйл" />
           <Input label="Нууц үг" showPassword />
-          <Typography
-            align="right"
-            sx={{ fontSize: "14px", fontWeight: "400" }}
-          >
-            Нууц үг сэргээх
-          </Typography>
+          <Button label="Нууц үг сэргээх" btnType="text" href="/passrecover" />
         </Stack>
 
         <Stack flex="row" width="100%" justifyContent="flex-end">
@@ -43,7 +38,7 @@ const LoginPage = () => {
           <Typography>Эсвэл</Typography>
         </Stack>
         <Stack flex="row" width="100%" justifyContent="flex-end">
-          <Button label="Бүртгүүлэх" btnType="outlined" />
+          <Button label="Бүртгүүлэх" btnType="outlined" href="/signup" />
         </Stack>
       </Box>
     </Grid>

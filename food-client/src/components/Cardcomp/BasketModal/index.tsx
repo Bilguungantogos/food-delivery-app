@@ -50,7 +50,14 @@ export default function BasketModal({ open, handleClose }: BasketModalProps) {
             />
 
             <Grid width={"384px"}>
-              <MdOutlineCancel style={{ width: "24px", height: "24px" }} />
+              <MdOutlineCancel
+                style={{
+                  width: "24px",
+                  height: "24px",
+                  marginLeft: "293px",
+                }}
+                onClick={handleClose}
+              />
               <Grid display={"flex"} flexDirection={"column"} gap={"32px"}>
                 <Grid>
                   <Typography

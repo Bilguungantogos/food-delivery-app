@@ -5,6 +5,7 @@ import { Button as MuiButton, Stack } from "@mui/material";
 interface IButtonProps {
   label: ReactNode;
   disabled?: boolean;
+  href?: string;
   btnType?: "contained" | "outlined" | "text";
   onClick?: () => void;
 }
@@ -14,10 +15,12 @@ export const Button = ({
   onClick,
   disabled = false,
   btnType = "contained",
+  href,
 }: IButtonProps) => {
   return (
     <Stack gap={1}>
       <MuiButton
+        href={href}
         onClick={onClick}
         color="primary"
         variant={btnType}
