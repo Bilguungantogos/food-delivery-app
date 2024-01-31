@@ -22,7 +22,7 @@ export const sendEmailToUser = async (req: Request, res: Response) => {
 
     await findUser.save();
 
-    await sendEmail(email, otp);
+    await sendEmail({ email, otp });
 
     res.status(201).json({ message: "email yvla" });
   } catch (error) {
@@ -57,7 +57,11 @@ export const changePassword = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
-    res.status(200).json({ message: "OTP is validated" });
+    const findUser = await User.findOne({ email });
+
+    await User.updateOne({ email: email }, { $set: { password: password } });
+
+    res.status(200).json({ message: "Амжилттай пассворд солилоо" });
   } catch (error) {
     res.status(500).json({ message: "Server is internal error" });
   }

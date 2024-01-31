@@ -2,12 +2,16 @@ import { Request, Response } from "express";
 import User from "../model/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { sendEmail } from "../utils/sendEmail";
 
 export const signup = async (req: Request, res: Response) => {
   try {
     const newUser = req.body;
     const user = await User.create(newUser);
-    res.status(201).json({ message: "Шинэ хэрэглэгчийг амжилттай бүртгэлээ" });
+    res.status(201).json({
+      message:
+        "Шинэ хэрэглэгчийг амжилттай бүртгэлээ. Таны бүртгэлтэй имэйл хаягруу баталгаажуулах имэйл илгээлээ.",
+    });
   } catch (error) {
     res
       .status(500)

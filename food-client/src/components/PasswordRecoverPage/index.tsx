@@ -32,24 +32,7 @@ const PasswordRecoverPage = () => {
     }
   };
 
-  const savePassword = async () => {
-    const router = useRouter();
-    try {
-      const data = await axios.post(
-        "http://localhost:8080/verify/send-email",
-        {}
-      );
-      await Swal.fire({
-        title: "Таны нууц үг амжилттай солигдлоо",
-        text: "та шинэ нууц үгээ ашиглан нэвтэрнэ үү",
-        icon: "success",
-      });
-      router.replace("/login");
-    } catch (error) {
-      toast.error("aaaa");
-      console.log(error);
-    }
-  };
+  const savePassword = async () => {};
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));

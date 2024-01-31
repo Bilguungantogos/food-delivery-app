@@ -15,7 +15,6 @@ interface IStepProps {
 
 const ChangeNewPassword = ({ handleChangeInput, savePassword }: IStepProps) => {
   const router = useRouter();
-
   return (
     <Grid mt="132px" mb="71px">
       {/* <Box

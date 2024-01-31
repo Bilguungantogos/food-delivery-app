@@ -1,10 +1,39 @@
 "use client";
 
 import { Input, Button } from "@/components";
-import React from "react";
+import React, { useContext } from "react";
 import { Grid, Box, Typography, Stack } from "@mui/material";
+import { UserContext } from "@/context/UserProvider";
+import { useFormik } from "formik";
+import * as yup from "yup";
 
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .max(100, "Имэйл хаяг тэмдэгт ихэдлээ")
+    .required("Имэйл хаягыг заавал бөглөнө үү")
+    .matches(
+      /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+      "Хүчинтэй имэйл хаяг байх ёстой"
+    ),
+  password: yup
+    .string()
+    .required("Нууц үгээ заавал бөглөнө үү.")
+    .min(6, "Хамгийн багадаа 6 тэмдэгт байх ёстой."),
+});
 const LoginPage = () => {
+  const { user } = useContext(UserContext);
+  const formik = useFormik({
+    onSubmit: ({ email, password }) => {
+      console.log(email);
+      console.log(password);
+    },
+    initialValues: { email: user.email, password: user.password },
+    validateOnChange: false,
+    validateOnBlur: false,
+    validationSchema: validationSchema,
+  });
+
   return (
     <Grid mt="111px" mb="75px">
       <Box
@@ -26,13 +55,29 @@ const LoginPage = () => {
           Нэвтрэх
         </Typography>
         <Stack width="100%" sx={{ mb: "48px" }}>
-          <Input label="Имэйл" />
-          <Input label="Нууц үг" showPassword />
+          <Input
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            errorText={formik.errors.email}
+            label="Имэйл"
+          />
+          <Input
+            name="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            errorText={formik.errors.password}
+            label="Нууц үг"
+            showPassword
+          />
           <Button label="Нууц үг сэргээх" btnType="text" href="/passrecover" />
         </Stack>
-
         <Stack flex="row" width="100%" justifyContent="flex-end">
-          <Button label="Нэвтрэх" btnType="contained" />
+          <Button
+            label="Нэвтрэх"
+            btnType="contained"
+            onClick={formik.handleSubmit}
+          />
         </Stack>
         <Stack sx={{ my: "2rem" }}>
           <Typography>Эсвэл</Typography>
