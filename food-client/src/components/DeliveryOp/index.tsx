@@ -5,7 +5,7 @@ const DeliveryOp = () => {
   return (
     <Grid
       padding={"16px"}
-      width={"265px"}
+      maxWidth={"265px"}
       border={"1px solid #D6D8DB"}
       borderRadius={"15px"}
     >

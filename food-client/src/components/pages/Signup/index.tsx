@@ -7,7 +7,7 @@ import { UserContext } from "@/context/UserProvider";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { CheckBox } from "@mui/icons-material";
 
 const validationSchema = yup.object({
@@ -32,13 +32,12 @@ const validationSchema = yup.object({
 
 const SignupPage = () => {
   const { user } = useContext(UserContext);
-
+  const router = useRouter();
   const formik = useFormik({
     onSubmit: async (
       { name, email, password, rePassword, address },
       { setSubmitting }
     ) => {
-      const router = useRouter();
       try {
         setSubmitting(true);
         const { data } = await axios.post("http://localhost:8080/auth/signup", {
@@ -47,8 +46,7 @@ const SignupPage = () => {
           name: name,
           address: address,
         });
-        router.push("/");
-        console.log("success");
+        router.replace("/");
         setSubmitting(false);
       } catch (error) {
         console.log(error);

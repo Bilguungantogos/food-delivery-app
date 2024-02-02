@@ -1,9 +1,15 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { sendEmail } from "../utils/sendEmail";
 import bcrypt from "bcrypt";
 import User from "../model/user";
+import jwt from "jsonwebtoken";
+import MyError from "../utils/myError";
 
-export const sendEmailToUser = async (req: Request, res: Response) => {
+export const sendEmailToUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { email } = req.body;
 
@@ -14,7 +20,7 @@ export const sendEmailToUser = async (req: Request, res: Response) => {
     const findUser = await User.findOne({ email });
 
     if (!findUser) {
-      return res.status(400).json({ message: "Хэрэглэгч олдсонгүй" });
+      throw new MyError("Хэрэглэгч олдсонгүй", 400);
     }
     const salt = await bcrypt.genSalt(10);
 
@@ -26,34 +32,39 @@ export const sendEmailToUser = async (req: Request, res: Response) => {
 
     res.status(201).json({ message: "email yvla" });
   } catch (error) {
-    res.status(400).json({
-      message: "Email илгээх үед алдаа гарлаа.",
-      error,
-    });
+    next(error);
   }
 };
 
-export const verifyOtp = async (req: Request, res: Response) => {
+export const verifyOtp = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { email, otp } = req.body;
 
     const findUser = await User.findOne({ email });
 
     if (!findUser) {
-      return res.status(400).json({ message: "Хэрэглэгч олдсонгүй" });
+      throw new MyError("Хэрэглэгч олдсонгүй", 400);
     }
     const validOtp = await bcrypt.compare(otp, findUser?.otp);
 
     if (!validOtp) {
-      return res.status(400).json({ message: "Код буруу байна" });
+      throw new MyError("Код буруу байна", 401);
     }
     res.status(200).json({ message: "OTP is validated" });
   } catch (error) {
-    res.status(500).json({ message: "Server is internal error" });
+    next(error);
   }
 };
 
-export const changePassword = async (req: Request, res: Response) => {
+export const changePassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { email, password } = req.body;
 
@@ -63,6 +74,35 @@ export const changePassword = async (req: Request, res: Response) => {
 
     res.status(200).json({ message: "Амжилттай пассворд солилоо" });
   } catch (error) {
-    res.status(500).json({ message: "Server is internal error" });
+    next(error);
+  }
+};
+
+export const verifyUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { token } = req.query;
+
+    const { email } = jwt.verify(
+      token as string,
+      process.env.JWT_PRIVATE_KEY as string
+    ) as { email: string };
+
+    const findUser = await User.findOne({ email: email });
+
+    if (!findUser) {
+      res.status(500).send("Not verified");
+    } else {
+      findUser.isVerified = true;
+    }
+
+    await findUser?.save();
+
+    res.status(200).send(`<h1 style="color: green">Valid Link </h1>`);
+  } catch (error) {
+    next(error);
   }
 };

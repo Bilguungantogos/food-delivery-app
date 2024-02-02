@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 interface IEmailProps {
   email: string;
-  otp: string;
+  otp?: string;
   token?: string;
 }
 
@@ -21,11 +21,11 @@ export const sendEmail = async ({ email, otp, token }: IEmailProps) => {
   const htmlTemplate = otp
     ? generateOtp(otp as string)
     : generateLink(token as string);
-  const info = await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to: email,
-    subject: "Verify Account for Food platform",
-    text: "Hello world?",
+  await transporter.sendMail({
+    from: process.env.EMAIL_USER, // sender address
+    to: email, // list of receivers
+    subject: "Verify Account for Food platform", // Subject line
+    text: "Hello world", // plain text body
     html: htmlTemplate,
   });
 };
