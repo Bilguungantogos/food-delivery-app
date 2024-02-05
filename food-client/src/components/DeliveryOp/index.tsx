@@ -1,7 +1,13 @@
 import { Grid, Typography } from "@mui/material";
 import React from "react";
 
-const DeliveryOp = () => {
+interface IdeliveryOpportunitiesType {
+  svgurl: string;
+  title: string;
+  desc: string;
+}
+
+const DeliveryOp = ({ svgurl, title, desc }: IdeliveryOpportunitiesType) => {
   return (
     <Grid
       padding={"16px"}
@@ -10,7 +16,7 @@ const DeliveryOp = () => {
       borderRadius={"15px"}
     >
       <Grid padding={"15px"}>
-        <img src="journal.svg" width={"30px"} height={"30px"} />
+        <img src={svgurl} width={"30px"} height={"30px"} />
       </Grid>
       <Typography
         variant="h5"
@@ -19,7 +25,7 @@ const DeliveryOp = () => {
         fontWeight={"700"}
         marginTop={"15px"}
       >
-        Хүргэлтийн төлөв хянах
+        {title}
       </Typography>
       <Typography
         variant="body2"
@@ -28,7 +34,7 @@ const DeliveryOp = () => {
         fontStyle={"normal"}
         fontWeight={"400"}
       >
-        Захиалга бэлтгэлийн явцыг хянах
+        {desc}
       </Typography>
     </Grid>
   );

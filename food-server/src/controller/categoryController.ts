@@ -11,7 +11,7 @@ export const createCategory = async (
     const newCategory = req.body;
     const createdCategory = await Category.create(newCategory);
     res
-      .send(201)
+      .status(201)
       .json({ message: "caterory created successfully.", createdCategory });
   } catch (error) {
     next(error);
@@ -32,7 +32,7 @@ export const getCategory = async (
     }
 
     res
-      .send(200)
+      .status(200)
       .json({ message: `${categoryId} тай категори олдлоо.`, findCategory });
   } catch (error) {
     next(error);
@@ -47,7 +47,7 @@ export const getAllCategory = async (
   try {
     const categories = await Category.find({});
 
-    res.send(200).json({ message: `Бүх категори олдлоо.`, categories });
+    res.status(200).json({ message: `Бүх категори олдлоо.`, categories });
   } catch (error) {
     next(error);
   }
@@ -69,7 +69,7 @@ export const updateCategory = async (
       throw new MyError(`${categoryId} тай категори олдсонгүй`, 400);
     }
     res
-      .send(200)
+      .status(200)
       .json({ message: `${categoryId} тай категори шинэчлэгдлээ.`, category });
   } catch (error) {
     next(error);
@@ -84,7 +84,7 @@ export const deleteCategory = async (
   try {
     const { categoryId } = req.params;
     const deleteCategory = await Category.findByIdAndDelete(categoryId);
-    res.send(200).json({
+    res.status(200).json({
       message: `${categoryId} тай категори устгалаа.`,
       deleteCategory,
     });

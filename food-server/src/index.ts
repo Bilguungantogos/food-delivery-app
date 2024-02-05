@@ -9,6 +9,8 @@ import cors from "cors";
 
 import dotenv from "dotenv";
 import { errorHandler } from "./middleWare/errorHandler";
+import { foodRoute } from "./router/foodRoute";
+import { uploadRoute } from "./router/uploadRoute";
 
 dotenv.config();
 
@@ -22,6 +24,8 @@ app.use(express.json());
 app.use("/auth", authRoute);
 app.use("/users", userRoute);
 app.use("/category", categoryRoute);
+app.use("/foods", foodRoute);
+app.use("/upload", uploadRoute);
 app.use("/verify", verifyRoute);
 
 app.use(errorHandler);
