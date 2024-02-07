@@ -6,12 +6,17 @@ import {
   getCategory,
   updateCategory,
 } from "../controller/categoryController";
+import { authenticate, authorize } from "../middleWare/auth";
+import { upload } from "../utils/multer";
 
 export const categoryRoute = Router();
 
-categoryRoute.route("/").get(getAllCategory).post(createCategory);
+categoryRoute
+  .route("/")
+  .get(getAllCategory)
+  .post(upload.single("image"), createCategory);
 categoryRoute
   .route("/:categoryId")
   .get(getCategory)
-  .delete(deleteCategory)
+  .delete(authenticate, authorize("Admin"), deleteCategory)
   .put(updateCategory);

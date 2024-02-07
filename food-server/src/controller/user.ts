@@ -36,19 +36,14 @@ export const login = async (
   next: NextFunction
 ) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email })
+    const { userEmail, userPassword } = req.body;
+    const user = await User.findOne({ email: userEmail })
       .select("+password")
-      .select("+isVerified");
-
+      .lean();
     if (!user) {
-      // return res.status(400).json({ message: `Хэрэгэлэгч бүртгэлгүй байна.` });
-      throw new MyError(`Хэрэгэлэгч бүртгэлгүй байна.`, 400);
+      throw new MyError(`${userEmail}-тэй хэрэглэгч бүртгэлгүй байна.`, 400);
     }
-    if (!user.isVerified) {
-      throw new MyError(`Та бүртгэлээ баталгаажуулан нэвтэрнэ үү.`, 400);
-    }
-    const isValid = await bcrypt.compare(password, user.password);
+    const isValid = await bcrypt.compare(userPassword, user.password);
 
     if (!isValid) {
       throw new MyError(`Имэйл эсвэл нууц үг буруу байна.`, 401);
@@ -58,9 +53,12 @@ export const login = async (
       process.env.JWT_PRIVATE_KEY as string,
       { expiresIn: process.env.JWT_EXPIRE_IN }
     );
-    res
-      .status(201)
-      .json({ message: "Хэрэглэгчийг амжилттай нэвтэрлээ", token });
+    const { password, ...otherParams } = user;
+    res.status(201).json({
+      message: "Хэрэглэгч амжилттай нэвтэрлээ",
+      token,
+      user: otherParams,
+    });
   } catch (error) {
     next(error);
   }

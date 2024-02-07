@@ -45,7 +45,7 @@ export const getAllCategory = async (
   next: NextFunction
 ) => {
   try {
-    const categories = await Category.find({});
+    const categories = await Category.find();
 
     res.status(200).json({ message: `Бүх категори олдлоо.`, categories });
   } catch (error) {
@@ -83,10 +83,13 @@ export const deleteCategory = async (
 ) => {
   try {
     const { categoryId } = req.params;
-    const deleteCategory = await Category.findByIdAndDelete(categoryId);
+    const category = await Category.findByIdAndDelete(categoryId);
+    if (!category) {
+      throw new MyError(`${categoryId}-тэй категори олдсонгүй.`, 400);
+    }
     res.status(200).json({
       message: `${categoryId} тай категори устгалаа.`,
-      deleteCategory,
+      category,
     });
   } catch (error) {
     next(error);

@@ -1,5 +1,6 @@
 "use client";
 
+import Cardcomp from "@/components/Cardcomp";
 import DeliveryOp from "@/components/DeliveryOp";
 import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
@@ -27,6 +28,7 @@ const Homepage = () => {
       desc: "Захиалга бэлтгэлийн явцыг хянах",
     },
   ];
+
   return (
     <Grid height={"full"}>
       <Box
@@ -72,7 +74,9 @@ const Homepage = () => {
           );
         })}
       </Grid>
-      <Grid></Grid>
+      <Grid>
+        <Cardcomp />
+      </Grid>
     </Grid>
   );
 };
