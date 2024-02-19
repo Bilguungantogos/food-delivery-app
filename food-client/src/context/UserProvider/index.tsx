@@ -1,8 +1,10 @@
 "use client";
 
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { createContext, useState, PropsWithChildren } from "react";
 import { toast } from "react-toastify";
+import { boolean } from "yup";
 
 interface IUser {
   name: string;
@@ -10,18 +12,6 @@ interface IUser {
   address: string;
   password?: string;
   rePassword?: string;
-}
-interface IFood {
-  name: string;
-  description: string;
-  price: number;
-  discountPrice?: number;
-  image?: string;
-  isSale: boolean;
-  category: {
-    _id: string;
-    name: string;
-  };
 }
 //  "_id": "65c095d33c41038ba9f3d33e",
 //           "name": "Tsuivan",
@@ -38,11 +28,15 @@ interface IFood {
 interface IUserContext {
   user: IUser;
   login: (name: string, password: string) => void;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
 }
 
 export const UserContext = createContext<IUserContext>({
   user: { name: "", email: "", address: "" },
   login: function (): void {},
+  loading: false,
+  setLoading: function (): void {},
 });
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
@@ -50,26 +44,20 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
     name: "testuser",
     email: "",
     address: "",
+    password: "",
   });
-  // const [allfoodInfo, setAllFoodInfo] = useState<IFood>({
-  //   name: "",
-  //   description: "",
-  //   price: 0,
-  //   discountPrice: 0,
-  //   image: "",
-  //   isSale: false,
-  //   category: {
-  //     _id: "",
-  //     name: "",
-  //   },
-  // });
-
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const login = async (email: string, password: string) => {
     try {
+      setLoading(true);
       const data = await axios.post("http://localhost:8080/auth/login", {
-        email: user.email,
-        password: user.password,
+        userEmail: email,
+        userPassword: password,
       });
+      setLoading(false);
+      router.push("/");
+      console.log(data);
     } catch (error) {
       toast.error("Email илгэээхэд алдаа гарлаа.");
       console.log(error);
@@ -85,7 +73,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   // };
 
   return (
-    <UserContext.Provider value={{ user, login: () => {} }}>
+    <UserContext.Provider value={{ user, login, loading, setLoading }}>
       {children}
     </UserContext.Provider>
   );

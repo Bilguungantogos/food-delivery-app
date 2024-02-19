@@ -20,6 +20,7 @@ import { bgGradient } from "@/theme/css";
 
 import Logo from "@/components/logo";
 import Iconify from "@/components/iconify";
+import axios from "axios";
 
 // ----------------------------------------------------------------------
 
@@ -28,21 +29,36 @@ export default function LoginView() {
 
   const router = useRouter();
 
+  const [userEmail, setUserEmail] = useState("gb200148@gmail.com");
+  const [userPassword, setUserPassword] = useState("123456789");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleClick = () => {
+  const handleClick = async () => {
+    const {
+      data: { user, token },
+    } = (await axios.post("http://localhost:8080/auth/login", {
+      userEmail,
+      userPassword,
+    })) as {
+      data: { token: string; user: any };
+    };
+
+    console.log(token, user);
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
     router.push("/dashboard");
   };
 
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
+        <TextField name="email" label="Email address" value={userEmail} />
 
         <TextField
           name="password"
           label="Password"
           type={showPassword ? "text" : "password"}
+          value={userPassword}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

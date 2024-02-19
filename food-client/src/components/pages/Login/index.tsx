@@ -1,11 +1,12 @@
 "use client";
 
 import { Input, Button } from "@/components";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Grid, Box, Typography, Stack } from "@mui/material";
 import { UserContext } from "@/context/UserProvider";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useRouter } from "next/router";
 
 const validationSchema = yup.object({
   email: yup
@@ -22,13 +23,13 @@ const validationSchema = yup.object({
     .min(6, "Хамгийн багадаа 6 тэмдэгт байх ёстой."),
 });
 const LoginPage = () => {
-  const { user } = useContext(UserContext);
+  const { login, loading } = useContext(UserContext);
+
   const formik = useFormik({
     onSubmit: ({ email, password }) => {
-      console.log(email);
-      console.log(password);
+      login(email, password);
     },
-    initialValues: { email: user.email, password: user.password },
+    initialValues: { email: "", password: "" },
     validateOnChange: false,
     validateOnBlur: false,
     validationSchema: validationSchema,
@@ -76,6 +77,7 @@ const LoginPage = () => {
           <Button
             label="Нэвтрэх"
             btnType="contained"
+            disabled={loading}
             onClick={formik.handleSubmit}
           />
         </Stack>
