@@ -28,6 +28,7 @@ const LoginPage = () => {
   const formik = useFormik({
     onSubmit: ({ email, password }) => {
       login(email, password);
+      
     },
     initialValues: { email: "", password: "" },
     validateOnChange: false,

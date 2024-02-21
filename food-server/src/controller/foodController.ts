@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import Food from "../model/food";
 import MyError from "../utils/myError";
 import Category from "../model/category";
+import cloudinary from "../utils/cloudinary";
 
 export const createFood = async (
   req: Request,
@@ -9,11 +10,13 @@ export const createFood = async (
   next: NextFunction
 ) => {
   try {
-    const newFood = req.body;
-    const createdFood = await Food.create(newFood);
-    res
-      .status(201)
-      .json({ message: "хоол created successfully.", createdFood });
+    const newFood = { ...req.body };
+    if (req.file) {
+      const { secure_url } = await cloudinary.uploader.upload(req.file.path);
+      newFood.image = secure_url;
+    }
+    await Food.create(newFood);
+    res.status(201).json({ message: "хоол created successfully." });
   } catch (error) {
     next(error);
   }

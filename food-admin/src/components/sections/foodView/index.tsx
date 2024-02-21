@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
@@ -21,16 +21,53 @@ interface IFood {
 export default function FoodView() {
   const [open, setOpen] = useState(false);
 
+  const [foods, setFoods] = useState([]);
+  const [file, setFile] = useState<File | null>(null);
+  const [newFood, setNewFood] = useState({
+    name: "",
+    description: "",
+    price: "",
+    category: "",
+  });
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFile(e.currentTarget.files![0]);
+    console.log(file, "aaaa");
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewFood({ ...newFood, [name]: value });
+  };
+
   const handleOpen = () => {
     setOpen(true);
   };
-  const handleClose = () => setOpen(false);
-
-  const [foods, setFoods] = useState<IFood[]>([]);
+  const handleClose = () => {
+    setOpen(() => false);
+  };
   useEffect(() => {
     getFoodinfo();
   }, []);
-
+  const [selectedValue, setSelectedValue] = useState<string>("");
+  const createFood = async () => {
+    try {
+      const formData = new FormData();
+      formData.set("image", file!);
+      formData.set("name", newFood.name);
+      formData.set("category", selectedValue);
+      formData.set("description", newFood.description);
+      formData.set("price", newFood.price);
+      const token = localStorage.getItem("token");
+      const { data } = await axios.post(
+        "http://localhost:8080/foods",
+        formData
+      );
+      console.log("Success Add Food");
+    } catch (error: any) {
+      alert("Add Error - " + error.message);
+    }
+  };
   const getFoodinfo = async () => {
     try {
       const { data } = await axios.get("http://localhost:8080/foods");
@@ -88,7 +125,16 @@ export default function FoodView() {
         ))}
       </Grid>
 
-      <AddFood open={open} handleOpen={handleOpen} handleClose={handleClose} />
+      <AddFood
+        open={open}
+        handleClose={handleClose}
+        newFood={newFood}
+        handleChange={handleChange}
+        handleFileChange={handleFileChange}
+        handleSave={createFood}
+        selectedValue={selectedValue}
+        setSelectedValue={setSelectedValue}
+      />
     </Container>
   );
 }

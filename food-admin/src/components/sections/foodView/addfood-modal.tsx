@@ -5,9 +5,14 @@ import {
   Typography,
   Modal,
   Grid,
+  Switch,
 } from "@mui/material";
-import Image from "next/image";
-import { Remove, Add, Close } from "@mui/icons-material";
+import { Remove, Add, Close, Fullscreen } from "@mui/icons-material";
+import { Input } from "@/components/core/input";
+import InputFileUpload from "@/components/core/inputfileupload";
+
+import MySelect from "@/components/core/myselect";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -28,125 +33,104 @@ interface IModalProps {
   handleOpen: () => void;
 }
 
-export const AddFood = ({ handleClose, handleOpen, open }: IModalProps) => {
-  const [count, setCount] = React.useState(1);
+export const AddFood = ({
+  handleClose,
+  open,
+  newFood,
+  handleChange,
+  handleFileChange,
+  handleSave,
+  selectedValue,
+  setSelectedValue,
+}: any) => {
+  const [categories, setCategories] = React.useState<
+    { _id: string; name: string }[]
+  >([]);
+  const getCategoryName = async () => {
+    try {
+      const {
+        data: { categories },
+      } = (await axios.get("http://localhost:8080/category")) as {
+        data: { categories: [] };
+      };
+      setCategories(categories);
+      console.log(categories);
+    } catch (error: any) {
+      alert("Get Error - " + error.message);
+    }
+  };
+
+  React.useEffect(() => {
+    getCategoryName();
+  }, []);
 
   return (
     <div>
       <Modal open={open} onClose={handleClose}>
         <Box sx={style}>
-          <Grid container display={"flex"} flexDirection={"row"} gap={10}>
-            <Grid item xs={6}>
-              <Image
-                alt=""
-                width={250}
-                height={250}
-                src="/dishpic.jpg"
-                style={{ width: "100%", height: "100%" }}
-              />
+          <Grid>
+            <Grid display={"flex"} alignItems={"center"} width={"100%"}>
+              <MuiButton onClick={handleClose} sx={{ color: "black" }}>
+                <Close />
+              </MuiButton>
+              <Typography width={"100%"} textAlign={"center"} variant="h4">
+                Create food - {selectedValue}
+              </Typography>
             </Grid>
+            <Grid>
+              <Input
+                name="name"
+                label="Хоолны нэр"
+                desc="Placeholder"
+                onChange={handleChange}
+              ></Input>
 
-            <Grid
-              item
-              xs={5}
-              display={"flex"}
-              flexDirection={"column"}
-              alignItems={"flex-start"}
-              gap={3}
-            >
-              <Grid item xs={1} position={"relative"}>
-                <MuiButton
-                  onClick={handleClose}
-                  sx={{ ml: 65, position: "absolute" }}
-                >
-                  <Close />
-                </MuiButton>
+              <Grid>
+                <MySelect
+                  label="Choose a category"
+                  options={categories}
+                  selectedValue={selectedValue}
+                  setSelectedValue={setSelectedValue}
+                />
               </Grid>
-              <Grid display={"flex"} flexDirection={"column"} gap={2}>
-                <div>
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h5"
-                    fontWeight={600}
-                    component="h2"
-                  >
-                    Bowl
-                  </Typography>
-                  <Typography
-                    id="modal-modal-description"
-                    sx={{ color: "#18BA51" }}
-                  >
-                    18,800
-                  </Typography>
-                </div>
-                <div>
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    fontWeight={600}
-                    component="h2"
-                  >
-                    Орц
-                  </Typography>
-                  <Typography
-                    id="modal-modal-description"
-                    variant="body2"
-                    bgcolor={"#F6F6F6"}
-                    p={3}
-                    borderRadius={4}
-                  >
-                    Өндөг, шош, улаан лооль, өргөст хэмт, байцаа, салмон.
-                  </Typography>
-                </div>
-                <div>
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    fontWeight={600}
-                    component="h2"
-                  >
-                    Тоо
-                  </Typography>
-                  <div>
-                    <MuiButton>
-                      <Remove
-                        sx={{
-                          bgcolor: "#18BA51",
-                          color: "white",
-                          width: "70%",
-                          height: "30px",
-                          borderRadius: 2,
-                        }}
-                      />
-                    </MuiButton>
-                    <input
-                      type="text"
-                      value={count}
-                      style={{
-                        width: "100px",
-                        border: "none",
-                        textAlign: "center",
-                        paddingTop: 4,
-                        paddingBottom: 4,
-                        fontWeight: 600,
-                        fontSize: 16,
-                      }}
-                    />
-                    <MuiButton>
-                      <Add
-                        sx={{
-                          bgcolor: "#18BA51",
-                          color: "white",
-                          width: "70%",
-                          height: "30px",
-                          borderRadius: 2,
-                        }}
-                      />
-                    </MuiButton>
-                  </div>
-                </div>
+              <Input
+                name="description"
+                label="Хоолны орц"
+                desc="Placeholder"
+                onChange={handleChange}
+              ></Input>
+              <Input
+                name="price"
+                label="Хоолны үнэ"
+                desc="Placeholder"
+                onChange={handleChange}
+              ></Input>
+              <Grid>
+                <Typography>Хоолны зураг</Typography>
+                <Grid
+                  textAlign={"center"}
+                  width={"400px"}
+                  p={"40px"}
+                  sx={{ backgroundColor: "#D3D3D3" }}
+                >
+                  <Typography mb={"10px"}>Add image for the food</Typography>
+                  <InputFileUpload handleFileChange={handleFileChange} />
+                </Grid>
+              </Grid>
+              <Grid>
+                <Grid display={"flex"} alignItems={"center"}>
+                  <Switch />
+                  <Typography>Хямдралтай эсэх</Typography>
+                </Grid>
+                <Input name="foodname" label="" desc="Placeholder"></Input>
               </Grid>
             </Grid>
+          </Grid>
+          <Grid display={"flex"} justifyContent={"flex-end"} gap={"10px"}>
+            <MuiButton>Clear</MuiButton>
+            <MuiButton variant="contained" onClick={handleSave}>
+              Continue
+            </MuiButton>
           </Grid>
         </Box>
       </Modal>
