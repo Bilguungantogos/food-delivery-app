@@ -28,6 +28,7 @@ export default function FoodView() {
     description: "",
     price: "",
     category: "",
+    discountPrice: "",
   });
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +39,16 @@ export default function FoodView() {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewFood({ ...newFood, [name]: value });
+  };
+
+  const handleClearChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewFood({
+      name: "",
+      description: "",
+      price: "",
+      category: "",
+      discountPrice: "",
+    });
   };
 
   const handleOpen = () => {
@@ -64,6 +75,7 @@ export default function FoodView() {
         formData
       );
       console.log("Success Add Food");
+      handleClose();
     } catch (error: any) {
       alert("Add Error - " + error.message);
     }
@@ -129,6 +141,7 @@ export default function FoodView() {
         open={open}
         handleClose={handleClose}
         newFood={newFood}
+        handleClearChange={handleClearChange}
         handleChange={handleChange}
         handleFileChange={handleFileChange}
         handleSave={createFood}

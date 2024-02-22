@@ -19,6 +19,7 @@ interface IInputProps {
   desc: string;
   name?: string;
   value?: string;
+  disabled?: boolean;
   errorText?: string | undefined;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onKeyup?: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -31,6 +32,7 @@ export const Input = ({
   showPassword = false,
   onChange,
   value,
+  disabled = false,
   errorText,
   onKeyup,
 }: IInputProps) => {
@@ -45,6 +47,7 @@ export const Input = ({
           onChange={onChange}
           onKeyUp={() => onKeyup}
           name={name}
+          disabled={disabled}
           placeholder={desc}
           type={isShowPassword ? "password" : "text"}
           endAdornment={

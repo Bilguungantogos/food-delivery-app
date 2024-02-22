@@ -6,6 +6,7 @@ import {
   Modal,
   Grid,
   Switch,
+  FormControlLabel,
 } from "@mui/material";
 import { Remove, Add, Close, Fullscreen } from "@mui/icons-material";
 import { Input } from "@/components/core/input";
@@ -42,6 +43,7 @@ export const AddFood = ({
   handleSave,
   selectedValue,
   setSelectedValue,
+  handleClearChange,
 }: any) => {
   const [categories, setCategories] = React.useState<
     { _id: string; name: string }[]
@@ -64,6 +66,12 @@ export const AddFood = ({
     getCategoryName();
   }, []);
 
+  const [isEnabled, setIsEnabled] = React.useState(false);
+
+  const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsEnabled(event.target.checked);
+    console.log(event.target.checked);
+  };
   return (
     <div>
       <Modal open={open} onClose={handleClose}>
@@ -74,7 +82,7 @@ export const AddFood = ({
                 <Close />
               </MuiButton>
               <Typography width={"100%"} textAlign={"center"} variant="h4">
-                Create food - {selectedValue}
+                Create food
               </Typography>
             </Grid>
             <Grid>
@@ -83,6 +91,7 @@ export const AddFood = ({
                 label="Хоолны нэр"
                 desc="Placeholder"
                 onChange={handleChange}
+                value={newFood.name}
               ></Input>
 
               <Grid>
@@ -98,12 +107,14 @@ export const AddFood = ({
                 label="Хоолны орц"
                 desc="Placeholder"
                 onChange={handleChange}
+                value={newFood.description}
               ></Input>
               <Input
                 name="price"
                 label="Хоолны үнэ"
                 desc="Placeholder"
                 onChange={handleChange}
+                value={newFood.price}
               ></Input>
               <Grid>
                 <Typography>Хоолны зураг</Typography>
@@ -117,17 +128,35 @@ export const AddFood = ({
                   <InputFileUpload handleFileChange={handleFileChange} />
                 </Grid>
               </Grid>
-              <Grid>
-                <Grid display={"flex"} alignItems={"center"}>
-                  <Switch />
-                  <Typography>Хямдралтай эсэх</Typography>
+              <Grid marginTop={"10px"}>
+                <Grid
+                  display={"flex"}
+                  alignItems={"center"}
+                  marginBottom={"-10px"}
+                >
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={isEnabled}
+                        onChange={handleSwitchChange}
+                      />
+                    }
+                    label="Хямдралтай эсэх"
+                  />
                 </Grid>
-                <Input name="foodname" label="" desc="Placeholder"></Input>
+                <Input
+                  name="discountPrice"
+                  label=""
+                  desc="Placeholder"
+                  disabled={!isEnabled}
+                  onChange={handleChange}
+                  value={newFood.discountPrice}
+                ></Input>
               </Grid>
             </Grid>
           </Grid>
           <Grid display={"flex"} justifyContent={"flex-end"} gap={"10px"}>
-            <MuiButton>Clear</MuiButton>
+            <MuiButton onClick={handleClearChange}>Clear</MuiButton>
             <MuiButton variant="contained" onClick={handleSave}>
               Continue
             </MuiButton>
