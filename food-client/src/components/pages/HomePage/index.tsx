@@ -1,9 +1,9 @@
 "use client";
 
-import Cardcomp from "@/components/Cardcomp";
 import DeliveryOp from "@/components/DeliveryOp";
 import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
+import FoodList from "../FoodList";
 
 const Homepage = () => {
   const deliveryOpportunities = [
@@ -75,7 +75,7 @@ const Homepage = () => {
         })}
       </Grid>
       <Grid>
-        <Cardcomp />
+        <FoodList />
       </Grid>
     </Grid>
   );

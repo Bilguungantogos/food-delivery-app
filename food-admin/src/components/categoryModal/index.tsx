@@ -75,11 +75,7 @@ export default function CategoryModal({
             desc="Write food Description"
             onChange={handleChange}
           />
-          <MuiButton
-            component="label"
-            variant="contained"
-            startIcon={<CloudUploadIcon />}
-          >
+          <MuiButton component="label" variant="contained">
             Upload file
             <VisuallyHiddenInput type="file" onChange={handleFileChange} />
           </MuiButton>

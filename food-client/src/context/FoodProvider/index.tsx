@@ -1,19 +1,23 @@
 "use client";
 
 import axios from "axios";
-import React, { createContext, useState, PropsWithChildren } from "react";
-import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import React, {
+  createContext,
+  useState,
+  PropsWithChildren,
+  useEffect,
+} from "react";
 
 interface IFood {
   name: string;
-  description: string;
   price: number;
-  discountPrice?: number;
-  image?: string;
-  isSale: boolean;
+  description: string;
+  image: string;
+  discountPrice: number;
   category: {
-    _id: string;
     name: string;
+    _id: string;
   };
 }
 //  "_id": "65c095d33c41038ba9f3d33e",
@@ -29,38 +33,41 @@ interface IFood {
 //           },
 
 interface IFoodContext {
-  allFood: IFood;
-  login: (name: string, password: string) => void;
+  food: IFood;
 }
 
-export const FoodContext = createContext<IFoodContext>({});
+export const FoodContext = createContext<IFoodContext>({
+  food: {
+    name: "",
+    price: 0,
+    description: "",
+    image: "",
+    discountPrice: 0,
+    category: {
+      name: "",
+      _id: "",
+    },
+  },
+});
 
-export const UserProvider = ({ children }: PropsWithChildren) => {
-  const [allFood, setAllFood] = useState<IFood>();
-  // const [allfoodInfo, setAllFoodInfo] = useState<IFood>({
-  //   name: "",
-  //   description: "",
-  //   price: 0,
-  //   discountPrice: 0,
-  //   image: "",
-  //   isSale: false,
-  //   category: {
-  //     _id: "",
-  //     name: "",
-  //   },
-  // });
+export const FoodProvider = ({ children }: PropsWithChildren) => {
+  const [foods, setFoods] = useState<IFood[]>([]);
+  useEffect(() => {
+    getFoodinfo();
+  }, []);
 
-  const allFoods = async () => {
+  const getFoodinfo = async () => {
     try {
-      const data = await axios.get("http://localhost:8080/foods", {});
+      const { data } = await axios.get("http://localhost:8080/foods");
+      setFoods(data.allFood);
+      console.log(foods);
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <FoodContext.Provider value={{ allFood, allFoods: () => {} }}>
-      {children}
-    </FoodContext.Provider>
+    <FoodContext.Provider value={{ foods }}>{children}</FoodContext.Provider>
   );
 };

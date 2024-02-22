@@ -7,32 +7,15 @@ import Typography from "@mui/material/Typography";
 import { fCurrency } from "@/utils/format-number";
 
 import Label from "@/components/label";
-import { ColorPreview } from "@/components/color-utils";
 
 // ----------------------------------------------------------------------
 
-export default function FoodCard({ product }: any) {
-  const renderStatus = (
-    <Label
-      variant="filled"
-      color={(product.status === "sale" && "error") || "info"}
-      sx={{
-        zIndex: 9,
-        top: 16,
-        right: 16,
-        position: "absolute",
-        textTransform: "uppercase",
-      }}
-    >
-      {product.status}
-    </Label>
-  );
-
+export default function FoodCard({ food }: any) {
   const renderImg = (
     <Box
       component="img"
-      alt={product.name}
-      src={product.cover}
+      alt={food?.name}
+      src={food?.image}
       sx={{
         top: 0,
         width: 1,
@@ -42,24 +25,6 @@ export default function FoodCard({ product }: any) {
       }}
     />
   );
-
-  const renderPrice = (
-    <Typography variant="subtitle1">
-      <Typography
-        component="span"
-        variant="body1"
-        sx={{
-          color: "text.disabled",
-          textDecoration: "line-through",
-        }}
-      >
-        {product.priceSale && fCurrency(product.priceSale)}
-      </Typography>
-      &nbsp;
-      {fCurrency(product.price)}
-    </Typography>
-  );
-
   return (
     <Card
       sx={{
@@ -68,15 +33,11 @@ export default function FoodCard({ product }: any) {
         },
       }}
     >
-      <Box sx={{ pt: "100%", position: "relative" }}>
-        {product.status && renderStatus}
-
-        {renderImg}
-      </Box>
+      <Box sx={{ pt: "100%", position: "relative" }}> {renderImg}</Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Link color="inherit" underline="hover" variant="subtitle2" noWrap>
-          {product.name}
+          {food?.name}
         </Link>
 
         <Stack
@@ -84,8 +45,7 @@ export default function FoodCard({ product }: any) {
           alignItems="center"
           justifyContent="space-between"
         >
-          <ColorPreview colors={product.colors} />
-          {renderPrice}
+          {food?.price}
         </Stack>
       </Stack>
     </Card>

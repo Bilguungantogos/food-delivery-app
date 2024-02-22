@@ -31,15 +31,12 @@ const validationSchema = yup.object({
 });
 
 const SignupPage = () => {
-  const { user } = useContext(UserContext);
+  const { user, loading, setLoading } = useContext(UserContext);
   const router = useRouter();
   const formik = useFormik({
-    onSubmit: async (
-      { name, email, password, rePassword, address },
-      { setSubmitting }
-    ) => {
+    onSubmit: async ({ name, email, password, rePassword, address }) => {
       try {
-        setSubmitting(true);
+        setLoading(true);
         const { data } = await axios.post("http://localhost:8080/auth/signup", {
           email: email,
           password: password,
@@ -47,7 +44,7 @@ const SignupPage = () => {
           address: address,
         });
         router.replace("/");
-        setSubmitting(false);
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -134,7 +131,11 @@ const SignupPage = () => {
         </Grid>
 
         <Stack flex="row" width="100%" justifyContent="flex-end">
-          <Button label="Бүртгүүлэх" onClick={formik.handleSubmit} />
+          <Button
+            label="Бүртгүүлэх"
+            disabled={loading}
+            onClick={formik.handleSubmit}
+          />
         </Stack>
       </Box>
     </Grid>

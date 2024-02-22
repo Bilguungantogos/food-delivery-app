@@ -53,11 +53,11 @@ export default function CategoryView() {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFile(e.currentTarget.files![0]);
+    console.log(file, "aaaa");
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setNewCategory({ ...newCategory, [name]: value });
   };
 
@@ -77,11 +77,11 @@ export default function CategoryView() {
 
       const {
         data: { category },
-      } = (await axios.post("http://localhost:8080/categories", formData)) as {
+      } = (await axios.post("http://localhost:8080/category", formData)) as {
         data: { category: object };
       };
 
-      // setCategories(categories);
+      getCategory();
       console.log("Success Add Category");
     } catch (error: any) {
       alert("Add Error - " + error.message);
@@ -92,7 +92,7 @@ export default function CategoryView() {
     try {
       const {
         data: { categories },
-      } = (await axios.get("http://localhost:8080/categories")) as {
+      } = (await axios.get("http://localhost:8080/category")) as {
         data: { categories: [] };
       };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ReactNode } from "react";
 import { Button as MuiButton, Stack } from "@mui/material";
 
@@ -24,6 +24,7 @@ export const Button = ({
         onClick={onClick}
         color="primary"
         variant={btnType}
+        disabled={disabled}
         sx={{
           padding: "8px 16px 8px 16px",
           fontSize: "16px",
@@ -34,7 +35,6 @@ export const Button = ({
           border: btnType === "outlined" ? 1 : 0,
           borderColor: btnType === "outlined" ? "#18ba51" : "",
         }}
-        disabled={disabled}
         size="medium"
       >
         {label}
