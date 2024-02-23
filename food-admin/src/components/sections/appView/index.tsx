@@ -17,24 +17,26 @@ import AppWidgetSummary from "./app-widget-summary";
 import AppTrafficBySite from "./app-traffic-by-site";
 import AppCurrentSubject from "./app-current-subject";
 import AppConversionRates from "./app-conversion-rates";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { redirect } from "next/navigation";
+import { UserContext } from "@/context/UserProvider";
 
 // ----------------------------------------------------------------------
 
 export default function AppView() {
-  const [user, setUser] = useState(() => {
-    try {
-      const userData = JSON.parse(localStorage.getItem("user") || "");
-      return userData;
-    } catch (error) {
-      console.error("Error parsing user data:", error);
-      return null;
-    }
-  });
-  if (!user) {
-    redirect("/login");
-  }
+  const { user, login } = useContext(UserContext);
+  // const [user, setUser] = useState(() => {
+  //   try {
+  //     const userData = JSON.parse(localStorage.getItem("user") || "");
+  //     return userData;
+  //   } catch (error) {
+  //     console.error("Error parsing user data:", error);
+  //     return null;
+  //   }
+  // });
+  // if (!user) {
+  //   redirect("/login");
+  // }
 
   return (
     <Container maxWidth="xl">

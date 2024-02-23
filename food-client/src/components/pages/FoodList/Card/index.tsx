@@ -30,39 +30,33 @@ export const FoodCard = ({ data }: IFoodProps) => {
   const handleClose = () => setOpen(false);
 
   return (
-    <>
-      <Card
-        sx={{ maxWidth: 282, margin: 5, border: "none", boxShadow: "none" }}
-        onClick={handleOpen}
-      >
-        <CardActionArea>
-          <CardMedia
-            sx={{ p: 0, height: 186 }}
-            image={data.img || "/dishpic.jpg"}
-          />
-          <CardContent
-            sx={{
-              pt: 1,
-            }}
-          >
-            <Typography fontSize={18} fontWeight={600}>
-              {data.name}
-            </Typography>
-            <Typography color="primary" fontSize={18} fontWeight={600}>
-              {data.price}₮
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
+    <Grid
+      sx={{ width: 282, margin: 5, border: "none", boxShadow: "none" }}
+      onClick={handleOpen}
+    >
+      <CardActionArea>
+        <CardMedia
+          sx={{ p: 0, height: 186, objectFit: "cover" }}
+          image={data.img || "/dishpic.jpg"}
+        />
+        <CardContent
+          sx={{
+            pt: 1,
+          }}
+        >
+          <Typography fontSize={18} fontWeight={600}>
+            {data.name}
+          </Typography>
+          <Typography color="#18BA51" fontSize={18} fontWeight={600}>
+            {data.price}₮
+          </Typography>
+        </CardContent>
+      </CardActionArea>
       <CardModal
         open={open}
         handleOpen={handleOpen}
         handleClose={handleClose}
       />
-    </>
+    </Grid>
   );
-};
-
-export const FoodCardItem = () => {
-  return <Box display="flex" flexWrap="wrap"></Box>;
 };

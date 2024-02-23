@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 
 import Stack from "@mui/material/Stack";
@@ -13,6 +13,8 @@ import IconButton from "@mui/material/IconButton";
 
 import Label from "@/components/label";
 import Iconify from "@/components/iconify";
+import axios from "axios";
+import { UserContext } from "@/context/UserProvider";
 
 // ----------------------------------------------------------------------
 
@@ -20,11 +22,11 @@ export default function UserTableRow({
   selected,
   name,
   avatarUrl,
-  company,
+  email,
   role,
   isVerified,
-  status,
   handleClick,
+  _id,
 }: any) {
   const [open, setOpen] = useState(null);
 
@@ -34,6 +36,23 @@ export default function UserTableRow({
 
   const handleCloseMenu = () => {
     setOpen(null);
+  };
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const deleteUser = async () => {
+    try {
+      const data = await axios.delete(
+        `http://localhost:8080/users/${_id}`,
+        config
+      );
+      console.log(data);
+    } catch (error: any) {
+      alert("Get Error - " + error.message);
+    }
   };
 
   return (
@@ -52,17 +71,11 @@ export default function UserTableRow({
           </Stack>
         </TableCell>
 
-        <TableCell>{company}</TableCell>
+        <TableCell>{email}</TableCell>
 
         <TableCell>{role}</TableCell>
 
         <TableCell align="center">{isVerified ? "Yes" : "No"}</TableCell>
-
-        <TableCell>
-          <Label color={(status === "banned" && "error") || "success"}>
-            {status}
-          </Label>
-        </TableCell>
 
         <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
@@ -86,7 +99,13 @@ export default function UserTableRow({
           Edit
         </MenuItem>
 
-        <MenuItem onClick={handleCloseMenu} sx={{ color: "error.main" }}>
+        <MenuItem
+          onClick={() => {
+            deleteUser();
+            handleCloseMenu();
+          }}
+          sx={{ color: "error.main" }}
+        >
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
         </MenuItem>

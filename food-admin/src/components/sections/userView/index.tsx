@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { sample } from "lodash";
 import { faker } from "@faker-js/faker";
 import Card from "@mui/material/Card";
@@ -22,6 +22,7 @@ import UserTableHead from "./user-table-head";
 import TableEmptyRows from "./table-empty-rows";
 import UserTableToolbar from "./user-table-toolbar";
 import { emptyRows, applyFilter, getComparator } from "./functions";
+import axios from "axios";
 
 // ----------------------------------------------------------------------
 
@@ -33,19 +34,7 @@ export const users = [...Array(24)].map((_, index) => ({
   name: faker.person.fullName(),
   company: faker.company.name(),
   isVerified: faker.datatype.boolean(),
-  status: sample(["active", "banned"]),
-  role: sample([
-    "Leader",
-    "Hr Manager",
-    "UI Designer",
-    "UX Designer",
-    "UI/UX Designer",
-    "Project Manager",
-    "Backend Developer",
-    "Full Stack Designer",
-    "Front End Developer",
-    "Full Stack Developer",
-  ]),
+  role: sample(["Admin", "User"]),
 }));
 
 // ----------------------------------------------------------------------
@@ -112,8 +101,21 @@ export default function UserView() {
     setFilterName(event.target.value);
   };
 
+  const [users1, setUsers] = useState([]);
+  const getUsersInfo = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:8080/users");
+      setUsers(data.users);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getUsersInfo();
+  }, []);
   const dataFiltered = applyFilter({
-    inputData: users,
+    inputData: users1,
     comparator: getComparator(order, orderBy),
     filterName,
   });
@@ -128,7 +130,7 @@ export default function UserView() {
         justifyContent="space-between"
         mb={5}
       >
-        <Typography variant="h4">Хэрэглэгчид</Typography>
+        <Typography variant="h4">Admin Dashboard</Typography>
       </Stack>
 
       <Card sx={{}}>
@@ -150,10 +152,9 @@ export default function UserView() {
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: "name", label: "Нэр" },
-                  { id: "company", label: "Имэйл" },
+                  { id: "email", label: "Имэйл" },
                   { id: "role", label: "Эрх" },
                   { id: "isVerified", label: "Баталгаажсан", align: "center" },
-                  { id: "status", label: "Төлөв" },
                   { id: "" },
                 ]}
               />
@@ -165,10 +166,10 @@ export default function UserView() {
                       key={row.id}
                       name={row.name}
                       role={row.role}
-                      status={row.status}
-                      company={row.company}
+                      email={row.email}
                       avatarUrl={row.avatarUrl}
                       isVerified={row.isVerified}
+                      _id={row._id}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event: any) => handleClick(event, row.name)}
                     />

@@ -13,7 +13,6 @@ import CategorySort from "./category-sort";
 import CategorySearch from "./category-search";
 
 // ----------------------------------------------------------------------
-import { faker } from "@faker-js/faker";
 import CategoryModal from "@/components/categoryModal";
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -30,16 +29,6 @@ const CATEGORY_TITLES = [
   "Six Socks Studio",
   "vincenzo de cotiis",
 ];
-// const categories = [...Array(CATEGORY_TITLES.length)].map(
-//   (_, index) => ({
-//     id: faker.string.uuid(),
-//     cover: `/assets/images/covers/cover_${index + 1}.jpg`,
-//     title: CATEGORY_TITLES[index + 1],
-//     createdAt: faker.date.past(),
-//   })
-// );
-
-// ----------------------------------------------------------------------
 
 export default function CategoryView() {
   const [open, setOpen] = useState(false);
