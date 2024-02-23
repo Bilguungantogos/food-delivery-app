@@ -2,33 +2,11 @@
 
 import DeliveryOp from "@/components/DeliveryOp";
 import { Box, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import FoodList from "../FoodList";
+import { FoodContext } from "@/context/FoodProvider";
 
 const Homepage = () => {
-  const deliveryOpportunities = [
-    {
-      svgurl: "jornal.svg",
-      title: "Хүргэлтийн төлөв хянах",
-      desc: "Захиалга бэлтгэлийн явцыг хянах",
-    },
-    {
-      svgurl: "clock.svg",
-      title: "Шуурхай хүргэлт",
-      desc: "Захиалга бэлтгэлийн явцыг хянах",
-    },
-    {
-      svgurl: "healthy.svg",
-      title: "Эрүүл, баталгаат орц",
-      desc: " Захиалга бэлтгэлийн явцыг хянах",
-    },
-    {
-      svgurl: "jornal.svg",
-      title: "Хоолны өргөн сонголт",
-      desc: "Захиалга бэлтгэлийн явцыг хянах",
-    },
-  ];
-
   return (
     <Grid height={"full"}>
       <Box
@@ -68,9 +46,14 @@ const Homepage = () => {
         gap={"40px"}
         marginY={"100px"}
       >
-        {deliveryOpportunities.map((el) => {
+        {deliveryOpportunities.map((el, i) => {
           return (
-            <DeliveryOp svgurl={el.svgurl} title={el.title} desc={el.desc} />
+            <DeliveryOp
+              svgurl={el.svgurl}
+              title={el.title}
+              desc={el.desc}
+              key={i}
+            />
           );
         })}
       </Grid>
@@ -82,3 +65,26 @@ const Homepage = () => {
 };
 
 export default Homepage;
+
+const deliveryOpportunities = [
+  {
+    svgurl: "jornal.svg",
+    title: "Хүргэлтийн төлөв хянах",
+    desc: "Захиалга бэлтгэлийн явцыг хянах",
+  },
+  {
+    svgurl: "clock.svg",
+    title: "Шуурхай хүргэлт",
+    desc: "Захиалга бэлтгэлийн явцыг хянах",
+  },
+  {
+    svgurl: "healthy.svg",
+    title: "Эрүүл, баталгаат орц",
+    desc: " Захиалга бэлтгэлийн явцыг хянах",
+  },
+  {
+    svgurl: "jornal.svg",
+    title: "Хоолны өргөн сонголт",
+    desc: "Захиалга бэлтгэлийн явцыг хянах",
+  },
+];
