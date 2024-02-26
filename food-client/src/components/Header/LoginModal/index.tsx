@@ -46,8 +46,8 @@ const LoginModal = ({ handleClose, open }: ILoginProps) => {
             Нэвтрэх
           </Typography>
           <Stack width="100%" sx={{ mb: "48px" }}>
-            <Input label="Имэйл" />
-            <Input label="Нууц үг" showPassword />
+            <Input name="" label="Имэйл" />
+            <Input name="" label="Нууц үг" showPassword />
             <Typography
               align="right"
               sx={{ fontSize: "14px", fontWeight: "400" }}

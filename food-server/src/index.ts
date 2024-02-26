@@ -11,6 +11,7 @@ import dotenv from "dotenv";
 import { errorHandler } from "./middleWare/errorHandler";
 import { foodRoute } from "./router/foodRoute";
 import { uploadRoute } from "./router/uploadRoute";
+import { basketRoute } from "./router/basketRoute";
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use("/auth", authRoute);
 app.use("/users", userRoute);
 app.use("/category", categoryRoute);
 app.use("/foods", foodRoute);
+app.use("/basket", basketRoute);
 app.use("/upload", uploadRoute);
 app.use("/verify", verifyRoute);
 

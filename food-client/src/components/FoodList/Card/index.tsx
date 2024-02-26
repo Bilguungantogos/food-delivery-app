@@ -1,7 +1,5 @@
 "use client";
 import { Button } from "@/components";
-import { CardModal } from "@/components/Modal";
-import StarIcon from "@/components/StarIcon";
 import {
   Card,
   CardContent,
@@ -14,6 +12,7 @@ import {
   Grid,
 } from "@mui/material";
 import { useState } from "react";
+import { CardModal } from "./CardModal";
 
 interface IFoodProps {
   data: {

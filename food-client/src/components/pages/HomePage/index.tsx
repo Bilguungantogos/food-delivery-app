@@ -3,7 +3,7 @@
 import DeliveryOp from "@/components/DeliveryOp";
 import { Box, Grid, Typography } from "@mui/material";
 import React, { useContext } from "react";
-import FoodList from "../FoodList";
+import FoodList from "../../FoodList";
 import { FoodContext } from "@/context/FoodProvider";
 
 const Homepage = () => {
