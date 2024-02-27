@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
   addBasket,
-  deleteBasket,
+  deleteBasketFood,
   getAllBasket,
   getBasket,
   updateBasket,
@@ -13,9 +13,6 @@ export const basketRoute = Router();
 basketRoute
   .route("/")
   .get(authenticate, getAllBasket)
-  .post(authenticate, addBasket);
-basketRoute
-  .route("/:basketId")
-  .get(getBasket)
-  .delete(deleteBasket)
-  .put(updateBasket);
+  .post(authenticate, addBasket)
+  .delete(authenticate, deleteBasketFood);
+basketRoute.route("/:basketId").get(getBasket).put(updateBasket);

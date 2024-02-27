@@ -33,6 +33,7 @@ export const addBasket = async (
         findBasket.foods.push({
           food: req.body.foodId,
           quantity: req.body.quantity,
+          totalPrice: req.body.price,
         });
       }
       await findBasket.save();
@@ -78,18 +79,29 @@ export const updateBasket = async (
   }
 };
 
-export const deleteBasket = async (
-  req: Request,
+export const deleteBasketFood = async (
+  req: IReq,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { foodId } = req.params;
-    const deleteFood = await Food.findByIdAndDelete(foodId);
-    res.status(200).json({
-      message: `${foodId} тай хоол устгалаа.`,
-      deleteFood,
-    });
+    const findBasket = await Basket.findOne({ user: req.user._id });
+    const { foodId } = req.body;
+    console.log(findBasket);
+    if (!findBasket) {
+      return res.status(404).json({ message: "Баскет олдсонгүй." });
+    }
+    const index = findBasket.foods.findIndex((food) => food.food == foodId);
+
+    if (index !== -1) {
+      findBasket.foods.splice(index, 1);
+      await findBasket.save();
+      return res.status(200).json({
+        message: `${foodId} тай basketdah хоол устгалаа.`,
+      });
+    } else {
+      return res.status(404).json({ message: "Хоол олдсонгүй." });
+    }
   } catch (error) {
     next(error);
   }
