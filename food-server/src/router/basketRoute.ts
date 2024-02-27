@@ -13,6 +13,10 @@ export const basketRoute = Router();
 basketRoute
   .route("/")
   .get(authenticate, getAllBasket)
-  .post(authenticate, addBasket)
+  .post(authenticate, addBasket);
+
+basketRoute
+  .route("/:basketId")
+  .get(getBasket)
+  .put(updateBasket)
   .delete(authenticate, deleteBasketFood);
-basketRoute.route("/:basketId").get(getBasket).put(updateBasket);

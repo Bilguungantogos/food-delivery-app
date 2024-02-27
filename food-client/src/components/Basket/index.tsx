@@ -73,6 +73,7 @@ export default function Basket() {
     }
   };
 
+  const deleteFoodFromBasket = () => {};
   return (
     <Grid>
       <React.Fragment key={"right"}>

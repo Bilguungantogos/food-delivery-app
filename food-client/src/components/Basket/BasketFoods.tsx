@@ -12,7 +12,10 @@ import { Add, Remove } from "@mui/icons-material";
 interface IData {
   [key: string]: any;
 }
-const BasketFoods: React.FC<{ data: IData }> = ({ data }) => {
+
+const BasketFoods: React.FC<{
+  data: IData;
+}> = ({ data }) => {
   const [foodQty, setFoodQty] = useState(data.quantity ? data.quantity : 1);
   const token = localStorage.getItem("token");
   const config = {
@@ -65,6 +68,23 @@ const BasketFoods: React.FC<{ data: IData }> = ({ data }) => {
   useEffect(() => {
     getFoodinfo();
   }, []);
+
+  const deleteFoodFromBasket = async () => {
+    console.log(data, "dataaa");
+    try {
+      const deleteFood = await axios.delete(
+        `http://localhost:8080/basket/${data.food}`,
+        config
+      );
+      console.log("foodata", deleteFood);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getFoodinfo();
+  }, []);
+
   return (
     <Grid container padding={"16px"} spacing={"16px"}>
       <Grid item xs={6}>
@@ -94,7 +114,13 @@ const BasketFoods: React.FC<{ data: IData }> = ({ data }) => {
             </Typography>
           </Grid>
           <Button sx={{ height: "48px", width: "48px" }}>
-            <MdOutlineCancel height={"48px"} width={"48px"} />
+            <MdOutlineCancel
+              height={"48px"}
+              width={"48px"}
+              onClick={() => {
+                deleteFoodFromBasket();
+              }}
+            />
           </Button>
         </Grid>
         <Grid>

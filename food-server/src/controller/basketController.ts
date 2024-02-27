@@ -86,13 +86,16 @@ export const deleteBasketFood = async (
 ) => {
   try {
     const findBasket = await Basket.findOne({ user: req.user._id });
-    const { foodId } = req.body;
+    const { foodId } = req.params;
     console.log(findBasket);
     if (!findBasket) {
       return res.status(404).json({ message: "Баскет олдсонгүй." });
     }
-    const index = findBasket.foods.findIndex((food) => food.food == foodId);
+    const index = findBasket.foods.findIndex((food) => {
+      return food.food.toString() == foodId;
+    });
 
+    console.log(index);
     if (index !== -1) {
       findBasket.foods.splice(index, 1);
       await findBasket.save();
