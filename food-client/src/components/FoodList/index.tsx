@@ -1,8 +1,9 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React, { useContext } from "react";
-import { FoodCard } from "./Card";
+
 import { FoodContext } from "@/context/FoodProvider";
 import { FaStar } from "react-icons/fa";
+import { FoodCard } from "./Card";
 
 const FoodList = () => {
   const { foods } = useContext(FoodContext);

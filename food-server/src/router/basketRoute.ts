@@ -10,7 +10,10 @@ import { authenticate, authorize } from "../middleWare/auth";
 
 export const basketRoute = Router();
 
-basketRoute.route("/").get(getAllBasket).post(authenticate, addBasket);
+basketRoute
+  .route("/")
+  .get(authenticate, getAllBasket)
+  .post(authenticate, addBasket);
 basketRoute
   .route("/:basketId")
   .get(getBasket)

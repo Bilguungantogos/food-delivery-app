@@ -43,34 +43,18 @@ export const addBasket = async (
   }
 };
 
-export const getBasket = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { foodId } = req.params;
-    const findFood = await Food.findById(foodId);
-
-    if (!findFood) {
-      throw new MyError(`${foodId} тай хоол олдсонгүй.`, 400);
-    }
-
-    res.status(200).json({ message: `${foodId} тай хоол олдлоо.`, findFood });
-  } catch (error) {
-    next(error);
-  }
-};
-
 export const getAllBasket = async (
-  req: Request,
+  req: IReq,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const allFood = await Food.find().populate("category", "_id name ");
-
-    res.status(200).json({ message: `Бүх хоол олдлоо.`, allFood });
+    const basket = await Basket.findOne({ user: req.user._id });
+    if (basket) {
+      res.status(200).json({ basket });
+    } else {
+      res.status(404).json({ message: "Basket not found for this user." });
+    }
   } catch (error) {
     next(error);
   }
@@ -106,6 +90,25 @@ export const deleteBasket = async (
       message: `${foodId} тай хоол устгалаа.`,
       deleteFood,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getBasket = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { foodId } = req.params;
+    const findFood = await Food.findById(foodId);
+
+    if (!findFood) {
+      throw new MyError(`${foodId} тай хоол олдсонгүй.`, 400);
+    }
+
+    res.status(200).json({ message: `${foodId} тай хоол олдлоо.`, findFood });
   } catch (error) {
     next(error);
   }

@@ -9,6 +9,7 @@ import {
 import Image from "next/image";
 import { Remove, Add, Close } from "@mui/icons-material";
 import { Button } from "@/components";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -27,19 +28,23 @@ interface IModalProps {
   open: boolean;
   handleClose: () => void;
   handleOpen: () => void;
+  getIntoBasket: () => void;
+  handleCount: {
+    (operation: "add" | "min"): void;
+  };
+  count: number;
+  data: any;
 }
 
-export const CardModal = ({ handleClose, handleOpen, open }: IModalProps) => {
-  const [count, setCount] = React.useState(1);
-
-  const handleCount = (operation: string) => {
-    if (operation === "add") {
-      setCount(count + 1);
-    } else if (operation === "min") {
-      setCount(count - 1);
-    }
-  };
-
+export const CardModal = ({
+  handleClose,
+  handleOpen,
+  handleCount,
+  getIntoBasket,
+  open,
+  data,
+  count,
+}: IModalProps) => {
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
@@ -49,11 +54,10 @@ export const CardModal = ({ handleClose, handleOpen, open }: IModalProps) => {
               alt=""
               width={250}
               height={250}
-              src="/dishpic.jpg"
+              src={data.img || "/dishpic.jpg"}
               style={{ width: "100%", height: "100%" }}
             />
           </Grid>
-
           <Grid
             item
             xs={5}
@@ -78,13 +82,13 @@ export const CardModal = ({ handleClose, handleOpen, open }: IModalProps) => {
                   fontWeight={600}
                   component="h2"
                 >
-                  Bowl
+                  {data.name}
                 </Typography>
                 <Typography
                   id="modal-modal-description"
                   sx={{ color: "#18BA51" }}
                 >
-                  18,800
+                  {data.price}
                 </Typography>
               </div>
               <div>
@@ -103,7 +107,7 @@ export const CardModal = ({ handleClose, handleOpen, open }: IModalProps) => {
                   p={3}
                   borderRadius={4}
                 >
-                  Өндөг, шош, улаан лооль, өргөст хэмт, байцаа, салмон.
+                  {data.description}
                 </Typography>
               </div>
               <div>
@@ -154,12 +158,7 @@ export const CardModal = ({ handleClose, handleOpen, open }: IModalProps) => {
                 </div>
               </div>
 
-              <Button
-                label={"Сагслах"}
-                onClick={() => {
-                  handleClose();
-                }}
-              />
+              <Button label={"Сагслах"} onClick={getIntoBasket} />
             </Grid>
           </Grid>
         </Grid>
