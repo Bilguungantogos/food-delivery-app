@@ -16,16 +16,14 @@ export const addBasket = async (
       const basket = await Basket.create({
         user: req.user._id,
         foods: [{ food: req.body.foodId, quantity: req.body.quantity }],
-        totalPrice: req.body.price,
+        totalPrice: req.body.totalPrice,
       });
     } else {
       const findFoods = findBasket.foods;
       const findIndex = findFoods.findIndex((el) => el.food == req.body.foodId);
-      console.log(findIndex);
       if (findIndex !== -1) {
-        findBasket.foods[findIndex].set({
-          quantity: Number(req.body.quantity),
-        });
+        findBasket.foods[findIndex].quantity = Number(req.body.quantity);
+        findBasket.totalPrice = Number(req.body.totalPrice);
         res
           .status(200)
           .json({ message: "sagsand hoolnii too amjilttai soligdloo" });
@@ -33,10 +31,13 @@ export const addBasket = async (
         findBasket.foods.push({
           food: req.body.foodId,
           quantity: req.body.quantity,
-          totalPrice: req.body.price,
         });
+        findBasket.totalPrice = Number(req.body.totalPrice);
       }
       await findBasket.save();
+      // const savedBasket = await (
+      //   await findBasket.save()
+      // ).populate("foods.food");
     }
     res.status(201).json({ message: "user's basket added successfully." });
   } catch (error) {

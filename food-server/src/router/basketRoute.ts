@@ -3,8 +3,6 @@ import {
   addBasket,
   deleteBasketFood,
   getAllBasket,
-  getBasket,
-  updateBasket,
 } from "../controller/basketController";
 import { authenticate, authorize } from "../middleWare/auth";
 
@@ -15,8 +13,4 @@ basketRoute
   .get(authenticate, getAllBasket)
   .post(authenticate, addBasket);
 
-basketRoute
-  .route("/:foodId")
-  .get(getBasket)
-  .put(updateBasket)
-  .delete(authenticate, deleteBasketFood);
+basketRoute.route("/:foodId").delete(authenticate, deleteBasketFood);
