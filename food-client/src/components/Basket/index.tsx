@@ -2,18 +2,13 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import { FaMinus, FaPlus } from "react-icons/fa";
-
 import { Grid, Typography, Button as MuiButton } from "@mui/material";
-import { MdOutlineCancel } from "react-icons/md";
 import axios from "axios";
-import { config } from "process";
-import { Add, Remove } from "@mui/icons-material";
 import BasketFoods from "./BasketFoods";
+import { Button } from "@/components/core/Button";
+import { Router } from "next/router";
 
 export default function Basket() {
   const [state, setState] = useState({
@@ -91,7 +86,7 @@ export default function Basket() {
   return (
     <Grid>
       <React.Fragment key={"right"}>
-        <Button variant="text" onClick={toggleDrawer("right", true)}>
+        <MuiButton variant="text" onClick={toggleDrawer("right", true)}>
           <Grid
             display="flex"
             gap={"10px"}
@@ -109,7 +104,7 @@ export default function Basket() {
               Сагс
             </Typography>
           </Grid>
-        </Button>
+        </MuiButton>
         <Drawer
           anchor={"right"}
           open={state["right"]}
@@ -156,6 +151,21 @@ export default function Basket() {
                 ))}
               </Box>
             </List>
+          </Box>
+          <Divider />
+          <Box
+            display={"flex"}
+            width={"100%"}
+            justifyContent={"space-between"}
+            px={20}
+            py={10}
+            alignItems={"center"}
+          >
+            <Grid>
+              <Typography>Нийт төлөх дүн</Typography>
+              <Typography>150000₮</Typography>
+            </Grid>
+            <Button label="Захилах" onClick={() => {}}></Button>
           </Box>
         </Drawer>
       </React.Fragment>
