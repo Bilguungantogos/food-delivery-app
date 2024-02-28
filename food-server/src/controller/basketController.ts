@@ -87,7 +87,7 @@ export const deleteBasketFood = async (
   try {
     const findBasket = await Basket.findOne({ user: req.user._id });
     const { foodId } = req.params;
-    console.log(findBasket);
+
     if (!findBasket) {
       return res.status(404).json({ message: "Баскет олдсонгүй." });
     }

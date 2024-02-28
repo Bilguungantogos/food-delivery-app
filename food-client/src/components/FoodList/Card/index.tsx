@@ -10,7 +10,7 @@ import {
   Stack,
   Grid,
 } from "@mui/material";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { CardModal } from "./CardModal";
 import axios from "axios";
 

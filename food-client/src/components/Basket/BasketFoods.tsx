@@ -11,11 +11,10 @@ import { Add, Remove } from "@mui/icons-material";
 
 interface IData {
   [key: string]: any;
+  onDelete: (foodId: string) => void;
 }
 
-const BasketFoods: React.FC<{
-  data: IData;
-}> = ({ data }) => {
+const BasketFoods: React.FC<IData> = ({ data, onDelete }) => {
   const [foodQty, setFoodQty] = useState(data.quantity ? data.quantity : 1);
   const token = localStorage.getItem("token");
   const config = {
@@ -69,22 +68,6 @@ const BasketFoods: React.FC<{
     getFoodinfo();
   }, []);
 
-  const deleteFoodFromBasket = async () => {
-    console.log(data, "dataaa");
-    try {
-      const deleteFood = await axios.delete(
-        `http://localhost:8080/basket/${data.food}`,
-        config
-      );
-      console.log("foodata", deleteFood);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    getFoodinfo();
-  }, []);
-
   return (
     <Grid container padding={"16px"} spacing={"16px"}>
       <Grid item xs={6}>
@@ -118,7 +101,7 @@ const BasketFoods: React.FC<{
               height={"48px"}
               width={"48px"}
               onClick={() => {
-                deleteFoodFromBasket();
+                onDelete(data.food);
               }}
             />
           </Button>

@@ -41,14 +41,11 @@ export default function Basket() {
     try {
       const { data } = await axios.get("http://localhost:8080/basket", config);
       setUserBasket(data.basket.foods);
-      console.log(data);
+      console.log(data.basket.foods);
     } catch (error) {
       console.log(error);
     }
   };
-  useEffect(() => {
-    getAllBasketForUser();
-  }, []);
 
   const [foodQty, setFoodQty] = useState(1);
 
@@ -73,7 +70,24 @@ export default function Basket() {
     }
   };
 
-  const deleteFoodFromBasket = () => {};
+  const deleteFoodFromBasket = async (foodId: string) => {
+    try {
+      const deleteFood = await axios.delete(
+        `http://localhost:8080/basket/${foodId}`,
+        config
+      );
+      // const index = userBasket.findIndex((e) => {
+      //   return e.food === foodId;
+      // });
+      // setUserBasket(userBasket.splice(index, 1));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getAllBasketForUser();
+  }, []);
+
   return (
     <Grid>
       <React.Fragment key={"right"}>
@@ -134,7 +148,11 @@ export default function Basket() {
             <List sx={{ padding: "24px 24px 0 24px" }}>
               <Box sx={{ flexGrow: 1 }}>
                 {userBasket.map((e: any, key: any) => (
-                  <BasketFoods data={e} key={e._id} />
+                  <BasketFoods
+                    data={e}
+                    key={e._id}
+                    onDelete={(foodId: string) => deleteFoodFromBasket(foodId)}
+                  />
                 ))}
               </Box>
             </List>

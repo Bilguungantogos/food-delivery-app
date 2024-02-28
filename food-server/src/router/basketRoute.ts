@@ -16,7 +16,7 @@ basketRoute
   .post(authenticate, addBasket);
 
 basketRoute
-  .route("/:basketId")
+  .route("/:foodId")
   .get(getBasket)
   .put(updateBasket)
   .delete(authenticate, deleteBasketFood);
