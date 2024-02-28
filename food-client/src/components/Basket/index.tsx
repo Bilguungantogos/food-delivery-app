@@ -8,7 +8,7 @@ import { Grid, Typography, Button as MuiButton } from "@mui/material";
 import axios from "axios";
 import BasketFoods from "./BasketFoods";
 import { Button } from "@/components/core/Button";
-import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function Basket() {
   const [state, setState] = useState({
@@ -71,13 +71,13 @@ export default function Basket() {
         `http://localhost:8080/basket/${foodId}`,
         config
       );
-      // const index = userBasket.findIndex((e) => {
-      //   return e.food === foodId;
-      // });
-      // setUserBasket(userBasket.splice(index, 1));
     } catch (error) {
       console.log(error);
     }
+  };
+  const router = useRouter();
+  const toOrder = () => {
+    router.push("order");
   };
   useEffect(() => {
     getAllBasketForUser();
@@ -163,9 +163,9 @@ export default function Basket() {
           >
             <Grid>
               <Typography>Нийт төлөх дүн</Typography>
-              <Typography>150000₮</Typography>
+              <Typography fontWeight={"bold"}>150000₮</Typography>
             </Grid>
-            <Button label="Захилах" onClick={() => {}}></Button>
+            <Button label="Захилах" onClick={toOrder}></Button>
           </Box>
         </Drawer>
       </React.Fragment>

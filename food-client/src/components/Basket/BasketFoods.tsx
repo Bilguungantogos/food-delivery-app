@@ -27,12 +27,14 @@ const BasketFoods: React.FC<IData> = ({ data, onDelete }) => {
     if (operation === "add") {
       const updatedQty = foodQty + 1;
       setFoodQty(updatedQty);
+      console.log(updatedQty);
       try {
         const newQuantityPost = await axios.post(
           "http://localhost:8080/basket",
-          { foodId: data.food, quantity: updatedQty },
+          { foodId: data.food, quantity: updatedQty, totalPrice: 10 },
           config
         );
+        console.log(newQuantityPost, "asdasdasdawwwww");
       } catch (error) {
         console.log(error);
       }
@@ -42,7 +44,7 @@ const BasketFoods: React.FC<IData> = ({ data, onDelete }) => {
       try {
         const newQuantityPost = await axios.post(
           "http://localhost:8080/basket",
-          { foodId: data.food, quantity: updatedQty },
+          { foodId: data.food, quantity: updatedQty, totalPrice: 10 },
           config
         );
       } catch (error) {

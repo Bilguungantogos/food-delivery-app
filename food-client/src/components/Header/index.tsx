@@ -34,6 +34,7 @@ const Header = () => {
       direction="row"
       justifyContent="space-around"
       alignItems="center"
+      my={"2px"}
     >
       <Grid item display={"flex"} gap={"24px"} alignItems={"center"}>
         <Grid padding={"7.178px 4.865px 7.055px 4.867px"}>
