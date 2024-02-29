@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import Button from "@mui/material/Button";
 
@@ -8,13 +8,14 @@ import { MdOutlineCancel } from "react-icons/md";
 import axios from "axios";
 import { config } from "process";
 import { Add, Remove } from "@mui/icons-material";
+import { BasketContext, BasketProvider } from "@/context/BasketProvider";
 
 interface IData {
   [key: string]: any;
-  onDelete: (foodId: string) => void;
 }
 
-const BasketFoods: React.FC<IData> = ({ data, onDelete }) => {
+const BasketFoods: React.FC<IData> = ({ data }) => {
+  const { deleteFoodFromBasket } = useContext(BasketContext);
   const [foodQty, setFoodQty] = useState(data.quantity ? data.quantity : 1);
   const token = localStorage.getItem("token");
   const config = {
@@ -103,7 +104,8 @@ const BasketFoods: React.FC<IData> = ({ data, onDelete }) => {
               height={"48px"}
               width={"48px"}
               onClick={() => {
-                onDelete(data.food);
+                deleteFoodFromBasket(data.food);
+                console.log("clicked", data.food);
               }}
             />
           </Button>

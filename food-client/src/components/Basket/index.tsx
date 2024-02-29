@@ -1,20 +1,27 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import { Grid, Typography, Button as MuiButton } from "@mui/material";
+import {
+  Grid,
+  Typography,
+  Button as MuiButton,
+  Badge,
+  IconButton,
+} from "@mui/material";
 import axios from "axios";
 import BasketFoods from "./BasketFoods";
 import { Button } from "@/components/core/Button";
 import { useRouter } from "next/navigation";
+import { BasketContext } from "@/context/BasketProvider";
 
 export default function Basket() {
+  const { basket }: any = useContext(BasketContext);
   const [state, setState] = useState({
     right: false,
   });
-  const [userBasket, setUserBasket] = useState([]);
   const toggleDrawer =
     (anchor: "right", open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -32,39 +39,6 @@ export default function Basket() {
     },
   };
 
-  const getAllBasketForUser = async () => {
-    try {
-      const { data } = await axios.get("http://localhost:8080/basket", config);
-      setUserBasket(data.basket.foods);
-      console.log(data.basket.foods);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const [foodQty, setFoodQty] = useState(1);
-
-  const handleCount = (operation: string) => {
-    if (operation === "add") {
-      setFoodQty(foodQty + 1);
-      // const getIntoBasket = async () => {
-      //   try {
-      //     const { data } = await axios.post(
-      //       "http://localhost:8080/basket",
-      //       { quantity: count + 1 },
-      //       config
-      //     );
-      //     console.log(data);
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
-      // };
-      // getIntoBasket();
-    } else if (operation === "min" && foodQty > 1) {
-      setFoodQty(foodQty - 1);
-    }
-  };
-
   const deleteFoodFromBasket = async (foodId: string) => {
     try {
       const deleteFood = await axios.delete(
@@ -75,19 +49,38 @@ export default function Basket() {
       console.log(error);
     }
   };
+
   const router = useRouter();
   const toOrder = () => {
     router.push("order");
   };
-  useEffect(() => {
-    getAllBasketForUser();
-  }, []);
 
   return (
     <Grid>
       <React.Fragment key={"right"}>
         <MuiButton variant="text" onClick={toggleDrawer("right", true)}>
-          <Grid
+          <Box sx={{ px: 2 }}>
+            <IconButton color="inherit">
+              <Badge
+                badgeContent={basket?.length}
+                color="success"
+                sx={{ marginLeft: 2 }}
+              >
+                <img src="basket.svg" />
+                <span
+                  style={{
+                    display: "inline-block",
+                    marginLeft: "8px",
+                    fontSize: "1rem",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Сагс
+                </span>
+              </Badge>
+            </IconButton>
+          </Box>
+          {/* <Grid
             display="flex"
             gap={"10px"}
             alignItems={"center"}
@@ -103,7 +96,7 @@ export default function Basket() {
             >
               Сагс
             </Typography>
-          </Grid>
+          </Grid> */}
         </MuiButton>
         <Drawer
           anchor={"right"}
@@ -142,12 +135,8 @@ export default function Basket() {
             <Divider />
             <List sx={{ padding: "24px 24px 0 24px" }}>
               <Box sx={{ flexGrow: 1 }}>
-                {userBasket.map((e: any, key: any) => (
-                  <BasketFoods
-                    data={e}
-                    key={e._id}
-                    onDelete={(foodId: string) => deleteFoodFromBasket(foodId)}
-                  />
+                {basket?.map((e: any, key: any) => (
+                  <BasketFoods data={e} key={e._id} />
                 ))}
               </Box>
             </List>

@@ -13,7 +13,16 @@ interface IBasket {
   [key: string]: any;
 }
 
-export const BasketContext = createContext({} as object);
+interface IBasketContext {
+  basket: IBasket;
+  deleteFoodFromBasket: (foodId: string) => void;
+  setBasket: React.Dispatch<React.SetStateAction<any[]>>;
+}
+export const BasketContext = createContext<IBasketContext>({
+  basket: [],
+  deleteFoodFromBasket: function (): void {},
+  setBasket: function (): void {},
+});
 
 export const BasketProvider = ({ children }: PropsWithChildren) => {
   const token = localStorage.getItem("token");
@@ -23,7 +32,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
     },
   };
   const [refetch, setRefetch] = useState<boolean>(false);
-  const [basket, setBasket] = useState<{} | null>(null);
+  const [basket, setBasket] = useState<any[]>([]);
   const addFoodToBasket = async (foodItem: any) => {
     try {
       const { data } = await axios.post(
@@ -42,6 +51,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
         `http://localhost:8080/basket/${foodId}`,
         config
       );
+      setRefetch(!refetch);
     } catch (error) {
       console.log(error);
     }
@@ -50,14 +60,18 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
   const getAllBasketFoods = async () => {
     try {
       const { data } = await axios.get("http://localhost:8080/basket", config);
-      setBasket({ ...basket });
+      setBasket(data.basket.foods);
+      console.log(data, "getAllBasketFoods");
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    getAllBasketFoods();
+  }, [refetch]);
 
   return (
-    <BasketContext.Provider value={{ setBasket, basket }}>
+    <BasketContext.Provider value={{ setBasket, basket, deleteFoodFromBasket }}>
       {children}
     </BasketContext.Provider>
   );
