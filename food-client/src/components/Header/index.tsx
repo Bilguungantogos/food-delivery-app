@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import InputBase from "@mui/material/InputBase";
 import { styled, withTheme } from "@mui/material/styles";
@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import Basket from "../Basket";
 import LoginModal from "./LoginModal";
+import { BasketContext } from "@/context/BasketProvider";
 
 const Header = () => {
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -23,7 +24,7 @@ const Header = () => {
       paddingLeft: `calc(1em)`,
     },
   }));
-
+  const { basket } = useContext(BasketContext);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
