@@ -12,9 +12,11 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Input as MuiInput } from "@mui/material";
 import { Button } from "@/components";
+import Orderfood from "./orderfood";
+import { BasketContext } from "@/context/BasketProvider";
 
 const districtOptions = [
   { name: "Баянзүрх", _id: "bzd" },
@@ -61,6 +63,7 @@ const apartment = [
   { name: "10th", _id: "10" },
 ];
 const OrderPage = () => {
+  const { basket } = useContext(BasketContext);
   const [selectedValues, setSelectedValues] = useState({
     district: "",
     khoroo: "",
@@ -73,8 +76,14 @@ const OrderPage = () => {
       [name]: value,
     }));
   };
+
   return (
-    <Grid display={"flex"} justifyContent={"space-evenly"} marginY={25}>
+    <Grid
+      display={"flex"}
+      justifyContent={"space-evenly"}
+      marginY={25}
+      marginBottom={50}
+    >
       <Grid maxWidth={"432px"}>
         <Box p={16} display={"flex"} gap={4}>
           <img src="step1.svg" />
@@ -157,24 +166,9 @@ const OrderPage = () => {
           height="600px"
           gap={4}
         >
-          <CardActionArea sx={{ width: "full" }}>
-            <CardMedia
-              sx={{ p: 0, height: 186, objectFit: "cover" }}
-              image={"/dishpic.jpg"}
-            />
-            <CardContent
-              sx={{
-                pt: 1,
-              }}
-            >
-              <Typography fontSize={18} fontWeight={600}>
-                Main pizza
-              </Typography>
-              <Typography color="#18BA51" fontSize={18} fontWeight={600}>
-                150033
-              </Typography>
-            </CardContent>
-          </CardActionArea>
+          {basket?.foods?.map((e: any, key: any) => {
+            return <Orderfood data={e} key={e._id} />;
+          })}
           <Grid>
             <Divider />
             <Box
@@ -186,7 +180,9 @@ const OrderPage = () => {
             >
               <Grid>
                 <Typography>Нийт төлөх дүн</Typography>
-                <Typography fontWeight={"bold"}>150000₮</Typography>
+                <Typography fontWeight={"bold"}>
+                  {basket?.totalPrice?.toLocaleString()}₮
+                </Typography>
               </Grid>
               <Button label="Захилах"></Button>
             </Box>

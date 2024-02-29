@@ -53,6 +53,9 @@ export default function Basket() {
   const router = useRouter();
   const toOrder = () => {
     router.push("order");
+    setState({
+      right: false,
+    });
   };
 
   return (
@@ -62,7 +65,7 @@ export default function Basket() {
           <Box sx={{ px: 2 }}>
             <IconButton color="inherit">
               <Badge
-                badgeContent={basket?.length}
+                badgeContent={basket?.foods?.length}
                 color="success"
                 sx={{ marginLeft: 2 }}
               >
@@ -135,7 +138,7 @@ export default function Basket() {
             <Divider />
             <List sx={{ padding: "24px 24px 0 24px" }}>
               <Box sx={{ flexGrow: 1 }}>
-                {basket?.map((e: any, key: any) => (
+                {basket?.foods?.map((e: any, key: any) => (
                   <BasketFoods data={e} key={e._id} />
                 ))}
               </Box>
@@ -152,7 +155,9 @@ export default function Basket() {
           >
             <Grid>
               <Typography>Нийт төлөх дүн</Typography>
-              <Typography fontWeight={"bold"}>150000₮</Typography>
+              <Typography fontWeight={"bold"}>
+                {basket?.totalPrice?.toLocaleString()}₮
+              </Typography>
             </Grid>
             <Button label="Захилах" onClick={toOrder}></Button>
           </Box>

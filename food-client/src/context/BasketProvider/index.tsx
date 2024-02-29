@@ -33,6 +33,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
   };
   const [refetch, setRefetch] = useState<boolean>(false);
   const [basket, setBasket] = useState<any[]>([]);
+
   const addFoodToBasket = async (foodItem: any) => {
     try {
       const { data } = await axios.post(
@@ -60,7 +61,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
   const getAllBasketFoods = async () => {
     try {
       const { data } = await axios.get("http://localhost:8080/basket", config);
-      setBasket(data.basket.foods);
+      setBasket(data.basket);
       console.log(data, "getAllBasketFoods");
     } catch (error) {
       console.log(error);

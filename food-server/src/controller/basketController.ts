@@ -53,6 +53,7 @@ export const getAllBasket = async (
   try {
     const basket = await Basket.findOne({ user: req.user._id });
     if (basket) {
+      await basket.populate("foods.food");
       res.status(200).json({ basket });
     } else {
       res.status(404).json({ message: "Basket not found for this user." });

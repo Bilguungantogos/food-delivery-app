@@ -59,7 +59,7 @@ const BasketFoods: React.FC<IData> = ({ data }) => {
   const getFoodinfo = async () => {
     try {
       const getFoodData = await axios.get(
-        `http://localhost:8080/foods/${data.food}`
+        `http://localhost:8080/foods/${data.food._id}`
       );
       setBasketFood(getFoodData.data.findFood);
       console.log("foodata", getFoodData);
