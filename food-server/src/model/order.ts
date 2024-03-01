@@ -11,6 +11,11 @@ const orderSchema = new Schema(
     orders: [
       {
         orderNo: String,
+        basket: {
+          type: Schema.Types.ObjectId,
+          ref: "Basket",
+          required: true,
+        },
         payment: {
           paymentAmount: Number,
           status: { type: String, enum: ["paid", "unpaid"], default: "unpaid" },

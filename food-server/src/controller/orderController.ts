@@ -3,6 +3,7 @@ import { IReq } from "../utils/interface";
 import User from "../model/user";
 import MyError from "../utils/myError";
 import Order from "../model/order";
+import Basket from "../model/basket";
 
 export const createOrder1 = async (
   req: IReq,
@@ -31,12 +32,14 @@ export const createOrder1 = async (
     // await findUser.save();
     // res.send("Order created successfully");
     const findOrder = await Order.findOne({ user: req.user._id });
+    const findBasket = await Basket.findOne({ user: req.user._id });
     if (!findOrder) {
       const basket = await Order.create({
         user: req.user._id,
         orders: [
           {
             orderNo: req.body.orderNo,
+
             payment: {
               paymentAmount: req.body.payment.paymentAmount,
             },
