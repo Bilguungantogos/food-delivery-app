@@ -19,13 +19,13 @@ import Orderfood from "./orderfood";
 import { BasketContext } from "@/context/BasketProvider";
 
 const districtOptions = [
-  { name: "Баянзүрх", _id: "bzd" },
-  { name: "Чингэлтэй", _id: "chin" },
-  { name: "Хан-Уул", _id: "han" },
-  { name: "Сүхбаатар", _id: "suh" },
-  { name: "Багануур", _id: "baga" },
-  { name: "Баянгол", _id: "bay" },
-  { name: "Багахангай", _id: "bagahan" },
+  { name: "Баянзүрх", _id: "baynzurh" },
+  { name: "Чингэлтэй", _id: "chingeltei" },
+  { name: "Хан-Уул", _id: "hanuul" },
+  { name: "Сүхбаатар", _id: "suhbaatar" },
+  { name: "Багануур", _id: "baganuur" },
+  { name: "Баянгол", _id: "bayngol" },
+  { name: "Багахангай", _id: "bagahangai" },
   { name: "Налайх", _id: "nalaih" },
 ];
 const khoroo = [
@@ -63,20 +63,61 @@ const apartment = [
   { name: "10th", _id: "10" },
 ];
 const OrderPage = () => {
-  const { basket } = useContext(BasketContext);
-  const [selectedValues, setSelectedValues] = useState({
+  const { basket, createOrder } = useContext(BasketContext);
+  const orderNo = () => {
+    return Math.floor(Math.random() * 1000) + 1;
+  };
+
+  const [orderValues, setOrderValues] = useState({
+    products: [],
+    orderNo: orderNo(),
+    paymentAmount: "",
     district: "",
     khoroo: "",
     apartment: "",
+    addressDetail: "",
+    phone: "",
+    paymentMethod: { cash: false, card: false },
   });
-
+  const updateProducts = () => {
+    if (basket) {
+      const totalPrice = basket.totalPrice;
+      const foods = basket.foods;
+      setOrderValues((prevState) => ({
+        ...prevState,
+        products: foods,
+        paymentAmount: totalPrice.toLocaleString(),
+      }));
+    }
+  };
   const handleSelectChange = (name: string, value: string) => {
-    setSelectedValues((prev) => ({
+    setOrderValues((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
-
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setOrderValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    console.log(orderValues);
+  };
+  const handleCheckboxChange = (e: any) => {
+    setOrderValues((prevValues) => ({
+      ...prevValues,
+      paymentMethod: {
+        ...prevValues.paymentMethod,
+        [e.target.name]: e.target.checked,
+      },
+    }));
+  };
+  const toOrder = () => {
+    updateProducts();
+    console.log(orderValues);
+    createOrder(JSON.stringify(orderValues));
+  };
   return (
     <Grid
       display={"flex"}
@@ -97,7 +138,7 @@ const OrderPage = () => {
           <MySelect
             label="Дүүрэг сонгоно уу"
             options={districtOptions}
-            selectedValue={selectedValues.district}
+            selectedValue={orderValues.district}
             setSelectedValue={(value) =>
               handleSelectChange(
                 "district",
@@ -108,7 +149,7 @@ const OrderPage = () => {
           <MySelect
             label="Хороо сонгоно уу"
             options={khoroo}
-            selectedValue={selectedValues.khoroo}
+            selectedValue={orderValues.khoroo}
             setSelectedValue={(value) =>
               handleSelectChange(
                 "khoroo",
@@ -119,7 +160,7 @@ const OrderPage = () => {
           <MySelect
             label="Байр гудамж сонгоно уу"
             options={apartment}
-            selectedValue={selectedValues.apartment}
+            selectedValue={orderValues.apartment}
             setSelectedValue={(value) =>
               handleSelectChange(
                 "apartment",
@@ -133,19 +174,40 @@ const OrderPage = () => {
               border: "1px solid black",
               boxSizing: "border-box",
             }}
-            name="address-detail"
+            name="addressDetail"
             type="text"
             placeholder="Орц давхар орцны код"
+            value={orderValues.addressDetail}
+            onChange={handleInputChange}
           ></MuiInput>
           <Input
             name="phone"
             label="Утасны дугаар*"
             placeholder="Утасны дугаараа оруулна уу"
+            onChange={handleInputChange}
           ></Input>
           <Typography>Төлбөр төлөх</Typography>
           <Grid display={"flex"} justifyContent={"space-between"} px={4}>
-            <FormControlLabel control={<Checkbox />} label="Бэлнээр" />
-            <FormControlLabel control={<Checkbox />} label="Картаар" />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={orderValues.paymentMethod.cash}
+                  onChange={handleCheckboxChange}
+                  name="cash"
+                />
+              }
+              label="Бэлнээр"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={orderValues.paymentMethod.card}
+                  onChange={handleCheckboxChange}
+                  name="cart"
+                />
+              }
+              label="Картаар"
+            />
           </Grid>
         </Box>
       </Grid>
@@ -184,7 +246,7 @@ const OrderPage = () => {
                   {basket?.totalPrice?.toLocaleString()}₮
                 </Typography>
               </Grid>
-              <Button label="Захилах"></Button>
+              <Button label="Захилах" onClick={toOrder}></Button>
             </Box>
           </Grid>
         </Box>

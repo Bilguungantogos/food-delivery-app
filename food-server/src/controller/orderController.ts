@@ -39,7 +39,7 @@ export const createOrder1 = async (
         orders: [
           {
             orderNo: req.body.orderNo,
-
+            products: [],
             payment: {
               paymentAmount: req.body.payment.paymentAmount,
             },
@@ -56,6 +56,7 @@ export const createOrder1 = async (
       const findOrders = findOrder.orders;
       findOrders.push({
         orderNo: req.body.orderNo,
+        products: [],
         payment: {
           paymentAmount: req.body.payment.paymentAmount,
         },

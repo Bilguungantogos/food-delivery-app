@@ -104,8 +104,8 @@ const BasketFoods: React.FC<IData> = ({ data }) => {
               height={"48px"}
               width={"48px"}
               onClick={() => {
-                deleteFoodFromBasket(data.food);
-                console.log("clicked", data.food);
+                deleteFoodFromBasket(data.food._id);
+                console.log("clicked", data.food._id);
               }}
             />
           </Button>
