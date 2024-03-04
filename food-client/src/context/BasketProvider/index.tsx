@@ -12,18 +12,38 @@ import React, {
 interface IBasket {
   [key: string]: any;
 }
-
+interface OrderValues {
+  products: any[];
+  orderNo: number;
+  paymentAmount: string;
+  district: string;
+  khoroo: string;
+  apartment: string;
+  addressDetail: string;
+  phone: string;
+  paymentMethod: { cash: boolean; card: boolean };
+}
 interface IBasketContext {
   basket: IBasket;
+  orderValues: IBasket;
   deleteFoodFromBasket: (foodId: string) => void;
-  createOrder: (orderInfo: string) => void;
+  createOrder: () => void;
   setBasket: React.Dispatch<React.SetStateAction<any[]>>;
+  setOrderValues: React.Dispatch<React.SetStateAction<OrderValues>>;
+  handleSelectChange: (name: string, value: string) => void;
+  handleInputChange: (e: any) => void;
+  handleCheckboxChange: (e: any) => void;
 }
 export const BasketContext = createContext<IBasketContext>({
   basket: [],
+  orderValues: [],
   deleteFoodFromBasket: function (): void {},
   setBasket: function (): void {},
+  setOrderValues: function (): void {},
   createOrder: function (): void {},
+  handleSelectChange: function (): void {},
+  handleInputChange: function (): void {},
+  handleCheckboxChange: function (): void {},
 });
 
 export const BasketProvider = ({ children }: PropsWithChildren) => {
@@ -74,7 +94,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
     return Math.floor(Math.random() * 1000) + 1;
   };
 
-  const [orderValues, setOrderValues] = useState({
+  const [orderValues, setOrderValues] = useState<OrderValues>({
     products: [],
     orderNo: orderNo(),
     paymentAmount: "",
@@ -85,7 +105,31 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
     phone: "",
     paymentMethod: { cash: false, card: false },
   });
-  const createOrder = async (orderValues: any) => {
+
+  const handleSelectChange = (name: string, value: string) => {
+    setOrderValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setOrderValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    console.log(orderValues);
+  };
+  const handleCheckboxChange = (e: any) => {
+    setOrderValues((prevValues) => ({
+      ...prevValues,
+      paymentMethod: {
+        ...prevValues.paymentMethod,
+        [e.target.name]: e.target.checked,
+      },
+    }));
+  };
+  const createOrder = async () => {
     try {
       console.log(orderValues, "orderValuesorderValues");
       const { data } = await axios.post(
@@ -95,7 +139,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
           products: orderValues.products,
           payment: {
             paymentAmount: orderValues.paymentAmount,
-            // paymentMethod: orderValues.paymentMethod,
+            paymentMethod: orderValues.paymentMethod,
           },
           address: {
             khoroo: orderValues.khoroo,
@@ -118,7 +162,17 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <BasketContext.Provider
-      value={{ setBasket, basket, deleteFoodFromBasket, createOrder }}
+      value={{
+        setBasket,
+        basket,
+        orderValues,
+        deleteFoodFromBasket,
+        createOrder,
+        handleSelectChange,
+        handleInputChange,
+        handleCheckboxChange,
+        setOrderValues,
+      }}
     >
       {children}
     </BasketContext.Provider>

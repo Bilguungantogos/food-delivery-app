@@ -17,6 +17,7 @@ import { Input as MuiInput } from "@mui/material";
 import { Button } from "@/components";
 import Orderfood from "./orderfood";
 import { BasketContext } from "@/context/BasketProvider";
+import { useRouter } from "next/navigation";
 
 const districtOptions = [
   { name: "Баянзүрх", _id: "baynzurh" },
@@ -63,60 +64,38 @@ const apartment = [
   { name: "10th", _id: "10" },
 ];
 const OrderPage = () => {
-  const { basket, createOrder } = useContext(BasketContext);
+  const router = useRouter();
+  const {
+    basket,
+    orderValues,
+    createOrder,
+    handleSelectChange,
+    handleInputChange,
+    handleCheckboxChange,
+    setOrderValues,
+  } = useContext(BasketContext);
   const orderNo = () => {
     return Math.floor(Math.random() * 1000) + 1;
   };
-
-  const [orderValues, setOrderValues] = useState({
-    products: [],
-    orderNo: orderNo(),
-    paymentAmount: "",
-    district: "",
-    khoroo: "",
-    apartment: "",
-    addressDetail: "",
-    phone: "",
-    paymentMethod: { cash: false, card: false },
-  });
   const updateProducts = () => {
     if (basket) {
       const totalPrice = basket.totalPrice;
       const foods = basket.foods;
+      const orderN = orderNo();
       setOrderValues((prevState) => ({
         ...prevState,
         products: foods,
         paymentAmount: totalPrice.toLocaleString(),
+        orderNo: orderN,
       }));
+      console.log("updated");
     }
   };
-  const handleSelectChange = (name: string, value: string) => {
-    setOrderValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setOrderValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-    console.log(orderValues);
-  };
-  const handleCheckboxChange = (e: any) => {
-    setOrderValues((prevValues) => ({
-      ...prevValues,
-      paymentMethod: {
-        ...prevValues.paymentMethod,
-        [e.target.name]: e.target.checked,
-      },
-    }));
-  };
-  const toOrder = () => {
-    updateProducts();
-    console.log(orderValues);
-    createOrder(JSON.stringify(orderValues));
+  const toOrder = async () => {
+    await updateProducts();
+    createOrder();
+    console.log(orderValues, "asd");
+    router.push("/");
   };
   return (
     <Grid
