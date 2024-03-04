@@ -1,6 +1,5 @@
 "use client";
 
-import DeliveryOp from "@/components/DeliveryOp";
 import {
   Box,
   Button as MuiButton,
@@ -10,7 +9,6 @@ import {
   BottomNavigationAction,
 } from "@mui/material";
 import React, { useContext } from "react";
-import FoodList from "../../FoodList";
 import { FoodContext } from "@/context/FoodProvider";
 import { FoodCard } from "@/components/FoodList/Card";
 

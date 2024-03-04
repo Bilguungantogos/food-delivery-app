@@ -75,23 +75,8 @@ const OrderPage = () => {
     handleCheckboxChange,
     setOrderValues,
   } = useContext(BasketContext);
-  const orderNo = () => {
-    return Math.floor(Math.random() * 100000) + 1;
-  };
-  // const updateProducts = () => {
-  //   const totalPrice = basket.totalPrice;
-  //   const foods = basket.foods;
-  //   const orderN = orderNo();
-  //   setOrderValues((prevState) => ({
-  //     ...prevState,
-  //     products: foods,
-  //     paymentAmount: totalPrice.toLocaleString(),
-  //     orderNo: orderN,
-  //   }));
-  //   console.log("updated");
-  // };
+
   const toOrder = async () => {
-    // await updateProducts();
     createOrder();
     console.log(orderValues, "asd");
     router.push("/");

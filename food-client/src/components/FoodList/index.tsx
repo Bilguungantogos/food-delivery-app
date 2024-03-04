@@ -10,11 +10,10 @@ import React, { useContext } from "react";
 import { FoodContext } from "@/context/FoodProvider";
 import { FaCentercode, FaStar } from "react-icons/fa";
 import { FoodCard } from "./Card";
-import { CategoryContext } from "@/context/CategoryProvider";
 
 const FoodList = () => {
   const { foods } = useContext(FoodContext);
-  const { category } = useContext(CategoryContext);
+
   const slicedFood = foods.slice(0, 4);
   const fontStyle = { fontWeight: "700", fontSize: "22px" };
   return (
@@ -68,7 +67,7 @@ const FoodList = () => {
         >
           <Grid display={"flex"} alignItems="center" gap={2}>
             <FaStar color="#18BA51" />
-            <Typography sx={fontStyle}>Үндсэн хоол {category.name}</Typography>
+            <Typography sx={fontStyle}>Үндсэн хоол</Typography>
           </Grid>
           <MuiButton variant="text" sx={{ color: "#18BA51" }}>
             Бүгдийг харах

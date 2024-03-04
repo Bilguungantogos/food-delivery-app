@@ -37,7 +37,6 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
     getFoodinfo();
   }, []);
 
-  
   return (
     <FoodContext.Provider value={{ foods }}>{children}</FoodContext.Provider>
   );
