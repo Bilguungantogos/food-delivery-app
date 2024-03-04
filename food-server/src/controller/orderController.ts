@@ -4,6 +4,7 @@ import User from "../model/user";
 import MyError from "../utils/myError";
 import Order from "../model/order";
 import Basket from "../model/basket";
+import DeletedBasket from "../model/deletedBasket";
 
 export const createOrder1 = async (
   req: IReq,
@@ -11,62 +12,39 @@ export const createOrder1 = async (
   next: NextFunction
 ) => {
   try {
-    // const findUser = await User.findById(req.user._id);
-    const newOrder = {
-      orderNo: "111",
-      payment: {
-        paymentAmount: 150000,
-      },
-      address: {
-        khoroo: "6th",
-        duureg: "BZD",
-        buildingNo: "150th apartment",
-        info: "uudnii code 1111",
-      },
+    const orderNo = () => {
+      return Math.floor(Math.random() * 100000) + 1;
     };
-    // if (!findUser) {
-    //   throw new MyError("User not found", 404);
-    // }
-
-    // findUser.orders.push(newOrder);
-    // await findUser.save();
-    // res.send("Order created successfully");
     const findOrder = await Order.findOne({ user: req.user._id });
-    const findBasket = await Basket.findOne({ user: req.user._id });
     if (!findOrder) {
-      const basket = await Order.create({
+      const order = await Order.create({
         user: req.user._id,
         orders: [
           {
-            orderNo: req.body.orderNo,
-            products: [],
+            orderNo: "#" + orderNo(),
+            products: req.body.basket.foods,
             payment: {
-              paymentAmount: req.body.payment.paymentAmount,
+              paymentAmount: req.body.basket.totalPrice,
             },
-            address: {
-              khoroo: req.body.address.khoroo,
-              duureg: req.body.address.duureg,
-              buildingNo: req.body.address.buildingNo,
-              info: req.body.address.info,
-            },
+            address: req.body.orderValues,
           },
         ],
       });
+      // const findBasket = await Basket.findById(req.body.products._id);
+      // const deletedBasket = await DeletedBasket.create(req.body.basket._id);
+      await Basket.findByIdAndDelete(req.body.basket._id);
+      res.status(201).json({ message: "created" });
     } else {
       const findOrders = findOrder.orders;
       findOrders.push({
-        orderNo: req.body.orderNo,
-        products: [],
+        orderNo: "#" + orderNo(),
+        products: req.body.basket.foods,
         payment: {
-          paymentAmount: req.body.payment.paymentAmount,
+          paymentAmount: req.body.basket.totalPrice,
         },
-        address: {
-          khoroo: req.body.address.khoroo,
-          duureg: req.body.address.duureg,
-          buildingNo: req.body.address.buildingNo,
-          info: req.body.address.info,
-        },
+        address: req.body.orderValues,
       });
+      await Basket.findByIdAndDelete(req.body.basket._id);
       await findOrder.save();
       // const savedBasket = await (
       //   await findBasket.save()

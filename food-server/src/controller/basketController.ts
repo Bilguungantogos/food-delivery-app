@@ -22,7 +22,9 @@ export const addBasket = async (
       const findFoods = findBasket.foods;
       const findIndex = findFoods.findIndex((el) => el.food == req.body.foodId);
       if (findIndex !== -1) {
-        findBasket.foods[findIndex].quantity = Number(req.body.quantity);
+        findBasket.foods[findIndex].set({
+          quantity: Number(req.body.quantity),
+        });
         findBasket.totalPrice = Number(req.body.totalPrice);
         res
           .status(200)
@@ -53,7 +55,6 @@ export const getAllBasket = async (
   try {
     const basket = await Basket.findOne({ user: req.user._id });
     if (basket) {
-      await basket.populate("foods.food");
       res.status(200).json({ basket });
     } else {
       res.status(404).json({ message: "Basket not found for this user." });

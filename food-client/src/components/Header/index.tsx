@@ -55,7 +55,7 @@ const Header = () => {
             НҮҮР
           </Link>
           <Link
-            href={"./"}
+            href={"./menu"}
             padding={"8px 16px 8px 16px"}
             sx={{ color: "black" }}
           >

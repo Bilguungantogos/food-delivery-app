@@ -27,7 +27,6 @@ app.use("/auth", authRoute);
 app.use("/users", userRoute);
 app.use("/category", categoryRoute);
 app.use("/foods", foodRoute);
-
 app.use("/basket", basketRoute);
 app.use("/upload", uploadRoute);
 app.use("/verify", verifyRoute);

@@ -137,7 +137,7 @@ export default function Basket() {
             </Grid>
             <Divider />
             <List sx={{ padding: "24px 24px 0 24px" }}>
-              <Box sx={{ flexGrow: 1 }}>
+              <Box sx={{ flexGrow: 1, overflow: "hidden" }}>
                 {basket?.foods?.map((e: any, key: any) => (
                   <BasketFoods data={e} key={e._id} />
                 ))}

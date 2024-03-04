@@ -13,9 +13,6 @@ interface IBasket {
   [key: string]: any;
 }
 interface OrderValues {
-  products: any[];
-  orderNo: number;
-  paymentAmount: string;
   district: string;
   khoroo: string;
   apartment: string;
@@ -86,18 +83,12 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
       setBasket(data.basket);
       console.log(data, "getAllBasketFoods");
     } catch (error) {
+      setBasket([]);
       console.log(error);
     }
   };
 
-  const orderNo = () => {
-    return Math.floor(Math.random() * 1000) + 1;
-  };
-
   const [orderValues, setOrderValues] = useState<OrderValues>({
-    products: [],
-    orderNo: orderNo(),
-    paymentAmount: "",
     district: "",
     khoroo: "",
     apartment: "",
@@ -134,28 +125,17 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
       console.log(orderValues, "orderValuesorderValues");
       const { data } = await axios.post(
         "http://localhost:8080/orders",
-        {
-          orderNo: orderValues.orderNo,
-          products: orderValues.products,
-          payment: {
-            paymentAmount: orderValues.paymentAmount,
-            paymentMethod: orderValues.paymentMethod,
-          },
-          address: {
-            khoroo: orderValues.khoroo,
-            duureg: orderValues.district,
-            buildingNo: orderValues.apartment,
-            info: orderValues.addressDetail,
-          },
-        },
+        { basket, orderValues },
         config
       );
+      setRefetch(!refetch);
       console.log(data, "ordersuccessfully created");
     } catch (error) {
       console.log(error);
       console.log(orderValues);
     }
   };
+
   useEffect(() => {
     getAllBasketFoods();
   }, [refetch]);

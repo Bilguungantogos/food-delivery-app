@@ -10,6 +10,7 @@ import {
   Divider,
   FormControlLabel,
   Grid,
+  Hidden,
   Typography,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
@@ -75,24 +76,22 @@ const OrderPage = () => {
     setOrderValues,
   } = useContext(BasketContext);
   const orderNo = () => {
-    return Math.floor(Math.random() * 1000) + 1;
+    return Math.floor(Math.random() * 100000) + 1;
   };
-  const updateProducts = () => {
-    if (basket) {
-      const totalPrice = basket.totalPrice;
-      const foods = basket.foods;
-      const orderN = orderNo();
-      setOrderValues((prevState) => ({
-        ...prevState,
-        products: foods,
-        paymentAmount: totalPrice.toLocaleString(),
-        orderNo: orderN,
-      }));
-      console.log("updated");
-    }
-  };
+  // const updateProducts = () => {
+  //   const totalPrice = basket.totalPrice;
+  //   const foods = basket.foods;
+  //   const orderN = orderNo();
+  //   setOrderValues((prevState) => ({
+  //     ...prevState,
+  //     products: foods,
+  //     paymentAmount: totalPrice.toLocaleString(),
+  //     orderNo: orderN,
+  //   }));
+  //   console.log("updated");
+  // };
   const toOrder = async () => {
-    await updateProducts();
+    // await updateProducts();
     createOrder();
     console.log(orderValues, "asd");
     router.push("/");
@@ -207,10 +206,12 @@ const OrderPage = () => {
           height="600px"
           gap={4}
         >
-          {basket?.foods?.map((e: any, key: any) => {
-            return <Orderfood data={e} key={e._id} />;
-          })}
-          <Grid>
+          <Grid sx={{ overflow: "hidden", zIndex: 1 }}>
+            {basket?.foods?.map((e: any, key: any) => {
+              return <Orderfood data={e} key={e._id} />;
+            })}
+          </Grid>
+          <Grid sx={{ zIndex: 2 }}>
             <Divider />
             <Box
               display={"flex"}

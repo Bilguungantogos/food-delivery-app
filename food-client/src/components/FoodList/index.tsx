@@ -1,20 +1,44 @@
-import { Box, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  TextField,
+  Typography,
+  Button as MuiButton,
+} from "@mui/material";
 import React, { useContext } from "react";
 
 import { FoodContext } from "@/context/FoodProvider";
-import { FaStar } from "react-icons/fa";
+import { FaCentercode, FaStar } from "react-icons/fa";
 import { FoodCard } from "./Card";
+import { CategoryContext } from "@/context/CategoryProvider";
 
 const FoodList = () => {
   const { foods } = useContext(FoodContext);
+  const { category } = useContext(CategoryContext);
   const slicedFood = foods.slice(0, 4);
-
+  const fontStyle = { fontWeight: "700", fontSize: "22px" };
   return (
     <>
-      <Box display={"flex"} flexDirection={"column"} justifyContent={"center"}>
-        <Grid mx={30} display={"flex"} alignItems="center" gap={2}>
-          <FaStar color="#18BA51" />
-          <Typography fontWeight={"bold"}>Хямдралтай</Typography>
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        maxWidth={"1300px"}
+        m={"auto"}
+      >
+        <Grid
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          width={"100%"}
+        >
+          <Grid display={"flex"} alignItems="center" gap={2}>
+            <FaStar color="#18BA51" />
+            <Typography sx={fontStyle}>Хямдралтай</Typography>
+          </Grid>
+          <MuiButton variant="text" sx={{ color: "#18BA51" }}>
+            Бүгдийг харах
+          </MuiButton>
         </Grid>
         <Grid
           container
@@ -22,16 +46,33 @@ const FoodList = () => {
           md={12}
           alignItems="center"
           justifyContent="center"
+          width={"100%"}
         >
           {slicedFood?.map((e: any, key: any) => {
             return <FoodCard data={e} key={slicedFood._id} />;
           })}
         </Grid>
       </Box>
-      <Box display={"flex"} flexDirection={"column"} justifyContent={"center"}>
-        <Grid mx={30} display={"flex"} alignItems="center" gap={2}>
-          <FaStar color="#18BA51" />
-          <Typography fontWeight={"bold"}>Үндсэн хоол</Typography>
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        maxWidth={"1300px"}
+        m={"auto"}
+      >
+        <Grid
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          width={"100%"}
+        >
+          <Grid display={"flex"} alignItems="center" gap={2}>
+            <FaStar color="#18BA51" />
+            <Typography sx={fontStyle}>Үндсэн хоол {category.name}</Typography>
+          </Grid>
+          <MuiButton variant="text" sx={{ color: "#18BA51" }}>
+            Бүгдийг харах
+          </MuiButton>
         </Grid>
         <Grid
           container
@@ -39,16 +80,33 @@ const FoodList = () => {
           md={12}
           alignItems="center"
           justifyContent="center"
+          width={"100%"}
         >
-          {slicedFood?.map((e: any, i: any) => {
-            return <FoodCard data={e} key={i} />;
+          {slicedFood?.map((e: any, key: any) => {
+            return <FoodCard data={e} key={slicedFood._id} />;
           })}
         </Grid>
       </Box>
-      <Box display={"flex"} flexDirection={"column"} justifyContent={"center"}>
-        <Grid mx={30} display={"flex"} alignItems="center" gap={2}>
-          <FaStar color="#18BA51" />
-          <Typography fontWeight={"bold"}>Салад ба зууш</Typography>
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        maxWidth={"1300px"}
+        m={"auto"}
+      >
+        <Grid
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          width={"100%"}
+        >
+          <Grid display={"flex"} alignItems="center" gap={2}>
+            <FaStar color="#18BA51" />
+            <Typography sx={fontStyle}>Салад ба зууш</Typography>
+          </Grid>
+          <MuiButton variant="text" sx={{ color: "#18BA51" }}>
+            Бүгдийг харах
+          </MuiButton>
         </Grid>
         <Grid
           container
@@ -56,16 +114,33 @@ const FoodList = () => {
           md={12}
           alignItems="center"
           justifyContent="center"
+          width={"100%"}
         >
-          {slicedFood?.map((e: any, i: any) => {
-            return <FoodCard data={e} key={i} />;
+          {slicedFood?.map((e: any, key: any) => {
+            return <FoodCard data={e} key={slicedFood._id} />;
           })}
         </Grid>
       </Box>
-      <Box display={"flex"} flexDirection={"column"} justifyContent={"center"}>
-        <Grid mx={30} display={"flex"} alignItems="center" gap={2}>
-          <FaStar color="#18BA51" />
-          <Typography fontWeight={"bold"}>Амттан</Typography>
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        maxWidth={"1300px"}
+        m={"auto"}
+      >
+        <Grid
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          width={"100%"}
+        >
+          <Grid display={"flex"} alignItems="center" gap={2}>
+            <FaStar color="#18BA51" />
+            <Typography sx={fontStyle}>Амттан</Typography>
+          </Grid>
+          <MuiButton variant="text" sx={{ color: "#18BA51" }}>
+            Бүгдийг харах
+          </MuiButton>
         </Grid>
         <Grid
           container
@@ -73,9 +148,10 @@ const FoodList = () => {
           md={12}
           alignItems="center"
           justifyContent="center"
+          width={"100%"}
         >
-          {slicedFood?.map((e: any, i: any) => {
-            return <FoodCard data={e} key={i} />;
+          {slicedFood?.map((e: any, key: any) => {
+            return <FoodCard data={e} key={slicedFood._id} />;
           })}
         </Grid>
       </Box>
