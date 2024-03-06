@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, {
   createContext,
   useState,
@@ -13,6 +13,9 @@ interface IBasket {
   [key: string]: any;
 }
 interface OrderValues {
+  products: any[];
+  orderNo: number;
+  paymentAmount: string;
   district: string;
   khoroo: string;
   apartment: string;
@@ -45,6 +48,10 @@ export const BasketContext = createContext<IBasketContext>({
 
 export const BasketProvider = ({ children }: PropsWithChildren) => {
   const token = localStorage.getItem("token");
+  const router = useRouter();
+  if (!token) {
+    router.push("/login");
+  }
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -83,12 +90,18 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
       setBasket(data.basket);
       console.log(data, "getAllBasketFoods");
     } catch (error) {
-      setBasket([]);
       console.log(error);
     }
   };
 
+  const orderNo = () => {
+    return Math.floor(Math.random() * 1000) + 1;
+  };
+
   const [orderValues, setOrderValues] = useState<OrderValues>({
+    products: [],
+    orderNo: 0,
+    paymentAmount: "",
     district: "",
     khoroo: "",
     apartment: "",
@@ -125,17 +138,28 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
       console.log(orderValues, "orderValuesorderValues");
       const { data } = await axios.post(
         "http://localhost:8080/orders",
-        { basket, orderValues },
+        {
+          orderNo: orderValues.orderNo,
+          products: orderValues.products,
+          payment: {
+            paymentAmount: orderValues.paymentAmount,
+            paymentMethod: orderValues.paymentMethod,
+          },
+          address: {
+            khoroo: orderValues.khoroo,
+            duureg: orderValues.district,
+            buildingNo: orderValues.apartment,
+            info: orderValues.addressDetail,
+          },
+        },
         config
       );
-      setRefetch(!refetch);
       console.log(data, "ordersuccessfully created");
     } catch (error) {
       console.log(error);
       console.log(orderValues);
     }
   };
-
   useEffect(() => {
     getAllBasketFoods();
   }, [refetch]);
