@@ -7,8 +7,9 @@ import {
   Typography,
   BottomNavigation,
   BottomNavigationAction,
+  Button,
 } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FoodContext } from "@/context/FoodProvider";
 import { FoodCard } from "@/components/FoodList/Card";
 
@@ -17,14 +18,24 @@ const MenuPage = () => {
     color: "white",
     backgroundColor: "#18BA51",
     fontWeight: "900",
-    fontSize: "150px",
     borderRadius: "20px",
   };
   const { foods } = useContext(FoodContext);
-  const slicedFood = foods.slice(0, 4);
-  const [value, setValue] = React.useState(0);
+
+  const uniqueCategoryNames: string[] = Array.from(
+    new Set(foods.map((food: any) => food.category.name))
+  );
+  const [value, setValue] = useState(0);
+  const [filteredFood, setFilteredFood] = useState(foods);
+
+  useEffect(() => {
+    const filtered = foods.filter(
+      (food: any) => food.category.name === uniqueCategoryNames[value]
+    );
+    setFilteredFood(filtered);
+  }, [value, foods]);
   return (
-    <Grid height={"full"}>
+    <Grid height={"full"} maxWidth={"1400px"} mx={"auto"}>
       <Box my={10}>
         <BottomNavigation
           showLabels
@@ -34,9 +45,13 @@ const MenuPage = () => {
           }}
           sx={{ display: "flex", justifyContent: "space-around" }}
         >
-          <BottomNavigationAction label="Үндсэн хоол" sx={buttonStyle} />
-          <BottomNavigationAction label="Амттан" sx={buttonStyle} />
-          <BottomNavigationAction label="Ундаа" sx={buttonStyle} />
+          {uniqueCategoryNames.map((categoryName, index) => (
+            <BottomNavigationAction
+              key={index}
+              label={categoryName}
+              sx={buttonStyle}
+            />
+          ))}
           <BottomNavigationAction label="Хямдралтай" sx={buttonStyle} />
         </BottomNavigation>
       </Box>
@@ -50,8 +65,8 @@ const MenuPage = () => {
           justifyContent="center"
           width={"100%"}
         >
-          {slicedFood?.map((e: any, key: any) => {
-            return <FoodCard data={e} key={slicedFood._id} />;
+          {filteredFood.map((e: any, key: any) => {
+            return <FoodCard data={e} key={key} />;
           })}
         </Grid>
       </Grid>

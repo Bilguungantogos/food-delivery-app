@@ -16,35 +16,36 @@ export const createOrder1 = async (
       return Math.floor(Math.random() * 100000) + 1;
     };
     const findOrder = await Order.findOne({ user: req.user._id });
+    const findBasket = await Basket.findOne({ user: req.user._id });
     if (!findOrder) {
       const order = await Order.create({
         user: req.user._id,
         orders: [
           {
             orderNo: "#" + orderNo(),
-            products: req.body.basket.foods,
+            products: findBasket?.foods,
             payment: {
-              paymentAmount: req.body.basket.totalPrice,
+              paymentAmount: findBasket?.totalPrice,
             },
-            address: req.body.orderValues,
+            address: req.body,
           },
         ],
       });
       // const findBasket = await Basket.findById(req.body.products._id);
       // const deletedBasket = await DeletedBasket.create(req.body.basket._id);
-      await Basket.findByIdAndDelete(req.body.basket._id);
+      await Basket.findByIdAndDelete(findBasket?._id);
       res.status(201).json({ message: "created" });
     } else {
       const findOrders = findOrder.orders;
       findOrders.push({
         orderNo: "#" + orderNo(),
-        products: req.body.basket.foods,
+        products: findBasket?.foods,
         payment: {
-          paymentAmount: req.body.basket.totalPrice,
+          paymentAmount: findBasket?.totalPrice,
         },
         address: req.body.orderValues,
       });
-      await Basket.findByIdAndDelete(req.body.basket._id);
+      await Basket.findByIdAndDelete(findBasket?._id);
       await findOrder.save();
       // const savedBasket = await (
       //   await findBasket.save()

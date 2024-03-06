@@ -10,12 +10,15 @@ import React, { useContext } from "react";
 import { FoodContext } from "@/context/FoodProvider";
 import { FaCentercode, FaStar } from "react-icons/fa";
 import { FoodCard } from "./Card";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 const FoodList = () => {
   const { foods } = useContext(FoodContext);
 
   const slicedFood = foods.slice(0, 4);
   const fontStyle = { fontWeight: "700", fontSize: "22px" };
+  const router = useRouter();
   return (
     <>
       <Box
@@ -35,7 +38,13 @@ const FoodList = () => {
             <FaStar color="#18BA51" />
             <Typography sx={fontStyle}>Хямдралтай</Typography>
           </Grid>
-          <MuiButton variant="text" sx={{ color: "#18BA51" }}>
+          <MuiButton
+            variant="text"
+            sx={{ color: "#18BA51" }}
+            onClick={() => {
+              router.push("/menu");
+            }}
+          >
             Бүгдийг харах
           </MuiButton>
         </Grid>

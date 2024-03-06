@@ -27,6 +27,7 @@ const orderSchema = new Schema(
           duureg: { type: String },
           buildingNo: { type: String },
           info: String,
+          phone: String,
         },
         delivery: {
           status: {

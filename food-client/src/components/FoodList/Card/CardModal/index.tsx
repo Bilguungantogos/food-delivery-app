@@ -54,7 +54,7 @@ export const CardModal = ({
               alt=""
               width={250}
               height={250}
-              src={data.img || "/dishpic.jpg"}
+              src={data?.image || "/dishpic.jpg"}
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </Grid>

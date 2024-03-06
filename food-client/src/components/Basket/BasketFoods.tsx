@@ -28,14 +28,13 @@ const BasketFoods: React.FC<IData> = ({ data }) => {
     if (operation === "add") {
       const updatedQty = foodQty + 1;
       setFoodQty(updatedQty);
-      console.log(updatedQty);
+
       try {
         const newQuantityPost = await axios.post(
           "http://localhost:8080/basket",
           { foodId: data.food, quantity: updatedQty, totalPrice: 10 },
           config
         );
-        console.log(newQuantityPost, "asdasdasdawwwww");
       } catch (error) {
         console.log(error);
       }
@@ -59,7 +58,7 @@ const BasketFoods: React.FC<IData> = ({ data }) => {
   const getFoodinfo = async () => {
     try {
       const getFoodData = await axios.get(
-        `http://localhost:8080/foods/${data.food._id}`
+        `http://localhost:8080/foods/${data.food}`
       );
       setBasketFood(getFoodData.data.findFood);
       console.log("foodata", getFoodData);
@@ -70,11 +69,16 @@ const BasketFoods: React.FC<IData> = ({ data }) => {
   useEffect(() => {
     getFoodinfo();
   }, []);
-
+  const typoStyle = { overflow: "hidden" };
   return (
     <Grid container padding={"16px"} spacing={"16px"}>
       <Grid item xs={6}>
-        <img src="dishpic.jpg" width={"245px"} height={"150px"} />
+        <img
+          src={basketFood.image}
+          style={{ objectFit: "cover" }}
+          width={"245px"}
+          height={"150px"}
+        />
       </Grid>
       <Grid item xs={6}>
         <Grid
@@ -88,13 +92,19 @@ const BasketFoods: React.FC<IData> = ({ data }) => {
               fontSize={18}
               fontStyle={"normal"}
               fontWeight={600}
-            ></Typography>
+              noWrap
+              sx={typoStyle}
+              maxWidth={"150px"}
+            >
+              {basketFood?.name}
+            </Typography>
             <Typography
               variant="h5"
               fontSize={18}
               fontStyle={"normal"}
               fontWeight={600}
               color={"#18BA51"}
+              noWrap
             >
               {basketFood?.price}
             </Typography>
@@ -104,14 +114,16 @@ const BasketFoods: React.FC<IData> = ({ data }) => {
               height={"48px"}
               width={"48px"}
               onClick={() => {
-                deleteFoodFromBasket(data.food._id);
-                console.log("clicked", data.food._id);
+                deleteFoodFromBasket(data.food);
+                console.log("clicked", data.food);
               }}
             />
           </Button>
         </Grid>
         <Grid>
-          <Typography variant="subtitle1">{basketFood.name}</Typography>
+          <Typography variant="subtitle1" height={"60px"} sx={typoStyle}>
+            {basketFood.description}
+          </Typography>
           <div>
             <MuiButton onClick={() => handleCount("min")}>
               <Remove

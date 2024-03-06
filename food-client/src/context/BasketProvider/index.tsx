@@ -13,15 +13,11 @@ interface IBasket {
   [key: string]: any;
 }
 interface OrderValues {
-  products: any[];
-  orderNo: number;
-  paymentAmount: string;
-  district: string;
+  duureg: string;
   khoroo: string;
-  apartment: string;
-  addressDetail: string;
+  buildingNo: string;
+  info: string;
   phone: string;
-  paymentMethod: { cash: boolean; card: boolean };
 }
 interface IBasketContext {
   basket: IBasket;
@@ -32,7 +28,7 @@ interface IBasketContext {
   setOrderValues: React.Dispatch<React.SetStateAction<OrderValues>>;
   handleSelectChange: (name: string, value: string) => void;
   handleInputChange: (e: any) => void;
-  handleCheckboxChange: (e: any) => void;
+  // handleCheckboxChange: (e: any) => void;
 }
 export const BasketContext = createContext<IBasketContext>({
   basket: [],
@@ -43,7 +39,7 @@ export const BasketContext = createContext<IBasketContext>({
   createOrder: function (): void {},
   handleSelectChange: function (): void {},
   handleInputChange: function (): void {},
-  handleCheckboxChange: function (): void {},
+  // handleCheckboxChange: function (): void {},
 });
 
 export const BasketProvider = ({ children }: PropsWithChildren) => {
@@ -93,21 +89,19 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
       console.log(error);
     }
   };
-
-  const orderNo = () => {
-    return Math.floor(Math.random() * 1000) + 1;
-  };
-
+  //  address: {
+  //           khoroo: { type: String },
+  //           duureg: { type: String },
+  //           buildingNo: { type: String },
+  //           info: String,
+  //         },
   const [orderValues, setOrderValues] = useState<OrderValues>({
-    products: [],
-    orderNo: 0,
-    paymentAmount: "",
-    district: "",
+    duureg: "",
     khoroo: "",
-    apartment: "",
-    addressDetail: "",
+    buildingNo: "",
+    info: "",
     phone: "",
-    paymentMethod: { cash: false, card: false },
+    // paymentMethod: { cash: false, card: false },
   });
 
   const handleSelectChange = (name: string, value: string) => {
@@ -124,37 +118,25 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
     }));
     console.log(orderValues);
   };
-  const handleCheckboxChange = (e: any) => {
-    setOrderValues((prevValues) => ({
-      ...prevValues,
-      paymentMethod: {
-        ...prevValues.paymentMethod,
-        [e.target.name]: e.target.checked,
-      },
-    }));
-  };
+  // const handleCheckboxChange = (e: any) => {
+  //   setOrderValues((prevValues) => ({
+  //     ...prevValues,
+  //     paymentMethod: {
+  //       ...prevValues.paymentMethod,
+  //       [e.target.name]: e.target.checked,
+  //     },
+  //   }));
+  // };
   const createOrder = async () => {
     try {
       console.log(orderValues, "orderValuesorderValues");
       const { data } = await axios.post(
         "http://localhost:8080/orders",
-        {
-          orderNo: orderValues.orderNo,
-          products: orderValues.products,
-          payment: {
-            paymentAmount: orderValues.paymentAmount,
-            paymentMethod: orderValues.paymentMethod,
-          },
-          address: {
-            khoroo: orderValues.khoroo,
-            duureg: orderValues.district,
-            buildingNo: orderValues.apartment,
-            info: orderValues.addressDetail,
-          },
-        },
+        orderValues,
         config
       );
       console.log(data, "ordersuccessfully created");
+      setBasket([]);
     } catch (error) {
       console.log(error);
       console.log(orderValues);
@@ -174,7 +156,6 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
         createOrder,
         handleSelectChange,
         handleInputChange,
-        handleCheckboxChange,
         setOrderValues,
       }}
     >

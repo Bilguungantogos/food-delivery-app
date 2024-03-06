@@ -68,7 +68,7 @@ export default Homepage;
 
 const deliveryOpportunities = [
   {
-    svgurl: "jornal.svg",
+    svgurl: "journal.svg",
     title: "Хүргэлтийн төлөв хянах",
     desc: "Захиалга бэлтгэлийн явцыг хянах",
   },
@@ -83,7 +83,7 @@ const deliveryOpportunities = [
     desc: " Захиалга бэлтгэлийн явцыг хянах",
   },
   {
-    svgurl: "jornal.svg",
+    svgurl: "journal.svg",
     title: "Хоолны өргөн сонголт",
     desc: "Захиалга бэлтгэлийн явцыг хянах",
   },

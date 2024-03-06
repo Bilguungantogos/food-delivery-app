@@ -72,7 +72,7 @@ const OrderPage = () => {
     createOrder,
     handleSelectChange,
     handleInputChange,
-    handleCheckboxChange,
+
     setOrderValues,
   } = useContext(BasketContext);
 
@@ -101,10 +101,10 @@ const OrderPage = () => {
           <MySelect
             label="Дүүрэг сонгоно уу"
             options={districtOptions}
-            selectedValue={orderValues.district}
+            selectedValue={orderValues.duureg}
             setSelectedValue={(value) =>
               handleSelectChange(
-                "district",
+                "duureg",
                 typeof value === "string" ? value : ""
               )
             }
@@ -123,10 +123,10 @@ const OrderPage = () => {
           <MySelect
             label="Байр гудамж сонгоно уу"
             options={apartment}
-            selectedValue={orderValues.apartment}
+            selectedValue={orderValues.buildingNo}
             setSelectedValue={(value) =>
               handleSelectChange(
-                "apartment",
+                "buildingNo",
                 typeof value === "string" ? value : ""
               )
             }
@@ -137,10 +137,10 @@ const OrderPage = () => {
               border: "1px solid black",
               boxSizing: "border-box",
             }}
-            name="addressDetail"
+            name="info"
             type="text"
             placeholder="Орц давхар орцны код"
-            value={orderValues.addressDetail}
+            value={orderValues.info}
             onChange={handleInputChange}
           ></MuiInput>
           <Input
@@ -150,12 +150,12 @@ const OrderPage = () => {
             onChange={handleInputChange}
           ></Input>
           <Typography>Төлбөр төлөх</Typography>
-          <Grid display={"flex"} justifyContent={"space-between"} px={4}>
+          {/* <Grid display={"flex"} justifyContent={"space-between"} px={4}>
             <FormControlLabel
               control={
                 <Checkbox
                   checked={orderValues.paymentMethod.cash}
-                  onChange={handleCheckboxChange}
+                  // onChange={handleCheckboxChange}
                   name="cash"
                 />
               }
@@ -165,13 +165,13 @@ const OrderPage = () => {
               control={
                 <Checkbox
                   checked={orderValues.paymentMethod.card}
-                  onChange={handleCheckboxChange}
+                  // onChange={handleCheckboxChange}
                   name="cart"
                 />
               }
               label="Картаар"
             />
-          </Grid>
+          </Grid> */}
         </Box>
       </Grid>
       <Grid maxWidth={"432px"}>
@@ -188,10 +188,10 @@ const OrderPage = () => {
           display={"flex"}
           flexDirection={"column"}
           justifyContent="space-between"
-          height="600px"
+          height="665px"
           gap={4}
         >
-          <Grid sx={{ overflow: "hidden", zIndex: 1 }}>
+          <Grid sx={{ overflow: "scroll", zIndex: 1 }}>
             {basket?.foods?.map((e: any, key: any) => {
               return <Orderfood data={e} key={e._id} />;
             })}

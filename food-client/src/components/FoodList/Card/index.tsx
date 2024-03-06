@@ -18,7 +18,7 @@ interface IFoodProps {
   data: {
     name: string;
     price: number;
-    img: string;
+    image: string;
     _id: string;
   };
 }
@@ -84,14 +84,14 @@ export const FoodCard = ({ data }: IFoodProps) => {
         <CardActionArea>
           <CardMedia
             sx={{ p: 0, height: 186, objectFit: "cover" }}
-            image={data.img || "/dishpic.jpg"}
+            image={data.image || "/dishpic.jpg"}
           />
           <CardContent
             sx={{
               pt: 1,
             }}
           >
-            <Typography fontSize={18} fontWeight={600}>
+            <Typography fontSize={18} fontWeight={600} noWrap>
               {data.name}
             </Typography>
             <Typography color="#18BA51" fontSize={18} fontWeight={600}>
