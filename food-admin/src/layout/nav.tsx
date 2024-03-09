@@ -114,13 +114,10 @@ export default function Nav({ openNav, onCloseNav }: any) {
       }}
     >
       <Logo sx={{ mt: 3, ml: 4 }} />
-
       {renderAccount}
 
       {renderMenu}
-
       <Box sx={{ flexGrow: 1 }} />
-
       {/* {renderUpgrade} */}
     </Scrollbar>
   );

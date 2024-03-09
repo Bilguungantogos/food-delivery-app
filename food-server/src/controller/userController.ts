@@ -16,6 +16,19 @@ export const getUsers = async (
   }
 };
 
+export const getUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.params;
+    const user = await User.findById(userId);
+    res.status(201).json({ message: " хэрэглэгч олдлоо", user });
+  } catch (error) {
+    next(error);
+  }
+};
 export const deleteUser = async (
   req: Request,
   res: Response,

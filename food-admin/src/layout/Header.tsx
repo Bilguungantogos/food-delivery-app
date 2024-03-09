@@ -16,6 +16,7 @@ import Iconify from "@/components/iconify";
 // import Searchbar from "./common/searchbar";
 import { NAV, HEADER } from "./config-layout";
 import AccountPopover from "./common/account-popover";
+import Searchbar from "./common/searchbar";
 
 // ----------------------------------------------------------------------
 
@@ -31,11 +32,7 @@ export default function Header({ onOpenNav }: any) {
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
       )}
-
-      {/* <Searchbar /> */}
-
       <Box sx={{ flexGrow: 1 }} />
-
       <Stack direction="row" alignItems="center" spacing={1}>
         {/* <LanguagePopover /> */}
         {/* <NotificationsPopover /> */}

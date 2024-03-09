@@ -30,6 +30,11 @@ const navConfig = [
     path: "/category",
     icon: icon("ic_blog"),
   },
+  {
+    title: "Захиалгууд",
+    path: "/order",
+    icon: icon("ic_blog"),
+  },
 ];
 
 export default navConfig;
