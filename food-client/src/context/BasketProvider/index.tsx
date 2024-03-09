@@ -45,9 +45,9 @@ export const BasketContext = createContext<IBasketContext>({
 export const BasketProvider = ({ children }: PropsWithChildren) => {
   const token = localStorage.getItem("token");
   const router = useRouter();
-  if (!token) {
-    router.push("/login");
-  }
+  // if (!token) {
+  //   router.push("/login");
+  // }
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
