@@ -43,21 +43,19 @@ export const BasketContext = createContext<IBasketContext>({
 });
 
 export const BasketProvider = ({ children }: PropsWithChildren) => {
-  const token = localStorage?.getItem("token");
   const router = useRouter();
-  // if (!token) {
-  //   router.push("/login");
-  // }
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
+
   const [refetch, setRefetch] = useState<boolean>(false);
   const [basket, setBasket] = useState<any[]>([]);
 
   const addFoodToBasket = async (foodItem: any) => {
     try {
+      const token = localStorage?.getItem("token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
       const { data } = await axios.post(
         "http://localhost:8080/basket",
         foodItem,
@@ -70,6 +68,12 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
 
   const deleteFoodFromBasket = async (foodId: string) => {
     try {
+      const token = localStorage?.getItem("token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
       const deleteFood = await axios.delete(
         `http://localhost:8080/basket/${foodId}`,
         config
@@ -82,6 +86,12 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
 
   const getAllBasketFoods = async () => {
     try {
+      const token = localStorage?.getItem("token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
       const { data } = await axios.get("http://localhost:8080/basket", config);
       setBasket(data.basket);
       console.log(data, "getAllBasketFoods");
@@ -129,6 +139,12 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
   // };
   const createOrder = async () => {
     try {
+      const token = localStorage?.getItem("token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
       console.log(orderValues, "orderValuesorderValues");
       const { data } = await axios.post(
         "http://localhost:8080/orders",

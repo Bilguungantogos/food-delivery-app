@@ -32,15 +32,14 @@ export default function Basket() {
       setState({ ...state, [anchor]: open });
     };
 
-  const token = localStorage.getItem("token");
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
   const deleteFoodFromBasket = async (foodId: string) => {
     try {
+      const token = localStorage?.getItem("token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
       const deleteFood = await axios.delete(
         `http://localhost:8080/basket/${foodId}`,
         config

@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 import Button from "@mui/material/Button";
 
-import { Grid, Typography, Button as MuiButton } from "@mui/material";
+import { Grid, Typography, Button as MuiButton, Input } from "@mui/material";
 import { MdOutlineCancel } from "react-icons/md";
 import axios from "axios";
 import { config } from "process";
@@ -124,7 +124,7 @@ const BasketFoods: React.FC<IData> = ({ data }) => {
           <Typography variant="subtitle1" height={"60px"} sx={typoStyle}>
             {basketFood.description}
           </Typography>
-          <div>
+          <Grid>
             <MuiButton onClick={() => handleCount("min")}>
               <Remove
                 sx={{
@@ -136,7 +136,7 @@ const BasketFoods: React.FC<IData> = ({ data }) => {
                 }}
               />
             </MuiButton>
-            <input
+            <Input
               type="text"
               value={foodQty}
               style={{
@@ -160,7 +160,7 @@ const BasketFoods: React.FC<IData> = ({ data }) => {
                 }}
               />
             </MuiButton>
-          </div>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

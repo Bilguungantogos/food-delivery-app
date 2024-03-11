@@ -5,8 +5,7 @@ import { authenticate, authorize } from "../middleWare/auth";
 
 export const userRoute = Router();
 
-userRoute.route("/").get(getUsers);
+userRoute.route("/").get(authenticate, getUser);
 userRoute
   .route("/:userId")
-  .delete(authenticate, authorize("Admin"), deleteUser)
-  .get(getUser);
+  .delete(authenticate, authorize("Admin"), deleteUser);

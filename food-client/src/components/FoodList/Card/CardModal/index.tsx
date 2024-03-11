@@ -75,7 +75,7 @@ export const CardModal = ({
               </MuiButton>
             </Grid>
             <Grid display={"flex"} flexDirection={"column"} gap={2}>
-              <div>
+              <Grid>
                 <Typography
                   id="modal-modal-title"
                   variant="h5"
@@ -90,8 +90,8 @@ export const CardModal = ({
                 >
                   {data.price}
                 </Typography>
-              </div>
-              <div>
+              </Grid>
+              <Grid>
                 <Typography
                   id="modal-modal-title"
                   variant="h6"
@@ -109,8 +109,8 @@ export const CardModal = ({
                 >
                   {data.description}
                 </Typography>
-              </div>
-              <div>
+              </Grid>
+              <Grid>
                 <Typography
                   id="modal-modal-title"
                   variant="h6"
@@ -119,7 +119,7 @@ export const CardModal = ({
                 >
                   Тоо
                 </Typography>
-                <div>
+                <Grid>
                   <MuiButton onClick={() => handleCount("min")}>
                     <Remove
                       sx={{
@@ -155,8 +155,8 @@ export const CardModal = ({
                       }}
                     />
                   </MuiButton>
-                </div>
-              </div>
+                </Grid>
+              </Grid>
 
               <Button label={"Сагслах"} onClick={getIntoBasket} />
             </Grid>

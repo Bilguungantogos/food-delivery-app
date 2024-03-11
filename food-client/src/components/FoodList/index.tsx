@@ -6,7 +6,7 @@ import {
   Button as MuiButton,
 } from "@mui/material";
 import React, { useContext } from "react";
-
+import { v4 as uuidv4 } from "uuid";
 import { FoodContext } from "@/context/FoodProvider";
 import { FaCentercode, FaStar } from "react-icons/fa";
 import { FoodCard } from "./Card";
@@ -56,8 +56,8 @@ const FoodList = () => {
           justifyContent="center"
           width={"100%"}
         >
-          {slicedFood?.map((e: any, key: any) => {
-            return <FoodCard data={e} key={slicedFood._id} />;
+          {slicedFood?.map((e: any, index: number) => {
+            return <FoodCard data={e} key={uuidv4()} />;
           })}
         </Grid>
       </Box>
@@ -91,7 +91,7 @@ const FoodList = () => {
           width={"100%"}
         >
           {slicedFood?.map((e: any, key: any) => {
-            return <FoodCard data={e} key={slicedFood._id} />;
+            return <FoodCard data={e} key={uuidv4()} />;
           })}
         </Grid>
       </Box>
@@ -124,8 +124,8 @@ const FoodList = () => {
           justifyContent="center"
           width={"100%"}
         >
-          {slicedFood?.map((e: any, key: any) => {
-            return <FoodCard data={e} key={slicedFood._id} />;
+          {slicedFood?.map((e: any, index: number) => {
+            return <FoodCard data={e} key={index} />;
           })}
         </Grid>
       </Box>
@@ -158,8 +158,8 @@ const FoodList = () => {
           justifyContent="center"
           width={"100%"}
         >
-          {slicedFood?.map((e: any, key: any) => {
-            return <FoodCard data={e} key={slicedFood._id} />;
+          {slicedFood?.map((e: any, index: number) => {
+            return <FoodCard data={e} key={`${index}-${e.name}`} />;
           })}
         </Grid>
       </Box>

@@ -2,9 +2,8 @@
 
 import DeliveryOp from "@/components/DeliveryOp";
 import { Box, Grid, Typography } from "@mui/material";
-import React, { useContext } from "react";
+import React from "react";
 import FoodList from "../../FoodList";
-import { FoodContext } from "@/context/FoodProvider";
 
 const Homepage = () => {
   return (

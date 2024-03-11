@@ -2,7 +2,12 @@
 
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { createContext, useState, PropsWithChildren } from "react";
+import React, {
+  createContext,
+  useState,
+  PropsWithChildren,
+  useEffect,
+} from "react";
 import { toast } from "react-toastify";
 import { boolean } from "yup";
 
@@ -38,6 +43,32 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchUserFromToken = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const { data } = await axios.get(`http://localhost:8080/users`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const userData = data.findUser;
+          setUser({
+            name: userData.name,
+            email: userData.email,
+            address: userData.address,
+            avatarUrl: userData.avatarUrl,
+          });
+          console.log(data, "lasdjkdsajlksdajksdajlk");
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+    fetchUserFromToken();
+  }, []);
 
   const login = async (email: string, password: string) => {
     try {

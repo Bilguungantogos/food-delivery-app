@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import User from "../model/user";
 import MyError from "../utils/myError";
+import { IReq } from "../utils/interface";
 
 export const getUsers = async (
   req: Request,
@@ -16,15 +17,10 @@ export const getUsers = async (
   }
 };
 
-export const getUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getUser = async (req: IReq, res: Response, next: NextFunction) => {
   try {
-    const userId = req.params;
-    const user = await User.findById(userId);
-    res.status(201).json({ message: " хэрэглэгч олдлоо", user });
+    const findUser = await User.findById(req.user._id);
+    res.status(201).json({ message: " хэрэглэгч олдлоо", findUser });
   } catch (error) {
     next(error);
   }
