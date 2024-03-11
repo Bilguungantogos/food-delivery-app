@@ -61,8 +61,10 @@ const MenuPage = () => {
           container
           xs={12}
           md={12}
+          display={"grid"}
+          gridTemplateColumns={"auto auto auto auto"}
           alignItems="center"
-          justifyContent="center"
+          justifyContent="flex-center"
           width={"100%"}
         >
           {filteredFood.map((e: any, key: any) => {

@@ -14,6 +14,8 @@ import {
 import Basket from "../Basket";
 import LoginModal from "./LoginModal";
 import { BasketContext } from "@/context/BasketProvider";
+import { useRouter } from "next/navigation";
+import { UserContext } from "@/context/UserProvider";
 
 const Header = () => {
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -25,9 +27,8 @@ const Header = () => {
     },
   }));
   const { basket } = useContext(BasketContext);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const { user } = useContext(UserContext);
+  const router = useRouter();
 
   return (
     <Grid
@@ -98,22 +99,48 @@ const Header = () => {
         <Basket />
 
         <Grid padding={"8px 16px 8px 16px"}>
-          <MuiButton sx={{ display: "flex", gap: "10px" }} onClick={handleOpen}>
-            <img src="profile.svg" />
-            <Typography
-              variant="h4"
-              fontSize="14px"
-              fontStyle="normal"
-              fontWeight={700}
-              lineHeight="20px"
-              alignItems={"center"}
+          {user.name !== "" ? (
+            <MuiButton
+              sx={{ display: "flex", gap: "10px" }}
+              onClick={() => {
+                router.push("/profile");
+              }}
             >
-              Нэвтрэх
-            </Typography>
-          </MuiButton>
+              <img src="profile.svg" />
+              <Typography
+                variant="h4"
+                fontSize="14px"
+                fontStyle="normal"
+                fontWeight={700}
+                lineHeight="20px"
+                alignItems={"center"}
+                color={"#18ba51"}
+              >
+                Хэрэглэгч - {user.name}
+              </Typography>
+            </MuiButton>
+          ) : (
+            <MuiButton
+              sx={{ display: "flex", gap: "10px" }}
+              onClick={() => {
+                router.push("/login");
+              }}
+            >
+              <img src="profile.svg" />
+              <Typography
+                variant="h4"
+                fontSize="14px"
+                fontStyle="normal"
+                fontWeight={700}
+                lineHeight="20px"
+                alignItems={"center"}
+              >
+                Нэвтрэх
+              </Typography>
+            </MuiButton>
+          )}
         </Grid>
       </Grid>
-      {open && <LoginModal open={open} handleClose={handleClose} />}
     </Grid>
   );
 };

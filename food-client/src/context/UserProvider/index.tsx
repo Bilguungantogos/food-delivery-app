@@ -12,6 +12,7 @@ interface IUser {
   address: string;
   password?: string;
   rePassword?: string;
+  avatarUrl?: string;
 }
 interface IUserContext {
   user: IUser;
@@ -29,10 +30,11 @@ export const UserContext = createContext<IUserContext>({
 
 export const UserProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<IUser>({
-    name: "testuser",
+    name: "",
     email: "",
     address: "",
     password: "",
+    avatarUrl: "",
   });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -46,6 +48,12 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       });
       const token = data.token;
       localStorage.setItem("token", token);
+      setUser({
+        ...user,
+        name: data.user.name,
+        email: data.user.email,
+        avatarUrl: data.user.avatarUrl,
+      });
       setLoading(false);
       router.push("/");
       console.log(data);
