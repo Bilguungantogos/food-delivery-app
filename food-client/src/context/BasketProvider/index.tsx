@@ -1,5 +1,6 @@
 "use client";
 
+import myAxios from "@/utils/axios";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, {
@@ -56,11 +57,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const { data } = await axios.post(
-        "http://localhost:8080/basket",
-        foodItem,
-        config
-      );
+      const { data } = await myAxios.post("/basket", foodItem, config);
     } catch (error) {
       console.log(error);
     }
@@ -74,10 +71,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const deleteFood = await axios.delete(
-        `http://localhost:8080/basket/${foodId}`,
-        config
-      );
+      const deleteFood = await myAxios.delete(`/basket/${foodId}`, config);
       setRefetch(!refetch);
     } catch (error) {
       console.log(error);
@@ -92,7 +86,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const { data } = await axios.get("http://localhost:8080/basket", config);
+      const { data } = await myAxios.get("/basket", config);
       setBasket(data.basket);
       console.log(data, "getAllBasketFoods");
     } catch (error) {
@@ -146,11 +140,7 @@ export const BasketProvider = ({ children }: PropsWithChildren) => {
         },
       };
       console.log(orderValues, "orderValuesorderValues");
-      const { data } = await axios.post(
-        "http://localhost:8080/orders",
-        orderValues,
-        config
-      );
+      const { data } = await myAxios.post("/orders", orderValues, config);
       console.log(data, "ordersuccessfully created");
       setBasket([]);
     } catch (error) {

@@ -9,7 +9,7 @@ import React, {
   useEffect,
 } from "react";
 import { toast } from "react-toastify";
-import { boolean } from "yup";
+import myAxios from "@/utils/axios";
 
 interface IUser {
   name: string;
@@ -49,7 +49,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
       const token = localStorage.getItem("token");
       if (token) {
         try {
-          const { data } = await axios.get(`http://localhost:8080/users`, {
+          const { data } = await myAxios.get(`/users`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -73,7 +73,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
   const login = async (email: string, password: string) => {
     try {
       setLoading(true);
-      const { data } = await axios.post("http://localhost:8080/auth/login", {
+      const { data } = await myAxios.post("/auth/login", {
         userEmail: email,
         userPassword: password,
       });

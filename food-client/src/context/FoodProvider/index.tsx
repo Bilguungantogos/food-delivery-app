@@ -1,5 +1,6 @@
 "use client";
 
+import myAxios from "@/utils/axios";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, {
@@ -26,7 +27,7 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
 
   const getFoodinfo = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/foods");
+      const { data } = await myAxios.get("/foods");
       setFoods(data.allFood);
       console.log("aaaaa", data);
     } catch (error) {

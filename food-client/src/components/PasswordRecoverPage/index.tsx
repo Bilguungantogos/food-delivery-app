@@ -3,12 +3,9 @@
 import React, { ChangeEvent, useState } from "react";
 import EmailInput from "./EmailInput";
 import RecoveryCode from "./RecoveryCode";
-import ChangeNewPassword from "./ChangeNewPassword ";
 import { Container } from "@mui/material";
-import axios from "axios";
 import { toast } from "react-toastify";
-import Swal from "sweetalert2";
-import { useRouter } from "next/router";
+import myAxios from "@/utils/axios";
 
 const PasswordRecoverPage = () => {
   const [activeStep, setActivestep] = useState(1);
@@ -22,7 +19,7 @@ const PasswordRecoverPage = () => {
 
   const handleNext = async () => {
     try {
-      const data = await axios.post("http://localhost:8080/verify/send-email", {
+      const data = await myAxios.post("/verify/send-email", {
         email: user.email,
       });
       setActivestep((prev) => prev + 1);
@@ -55,13 +52,13 @@ const PasswordRecoverPage = () => {
           handleChangeInput={handleChangeInput}
         />
       )}
-      {activeStep === 3 && (
+      {/* {activeStep === 3 && (
         <ChangeNewPassword
           email={user.email}
           handleChangeInput={handleChangeInput}
           savePassword={savePassword}
         />
-      )}
+      )} */}
     </Container>
   );
 };
