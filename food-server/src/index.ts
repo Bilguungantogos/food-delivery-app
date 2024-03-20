@@ -32,6 +32,9 @@ app.use("/upload", uploadRoute);
 app.use("/verify", verifyRoute);
 app.use("/orders", orderRoute);
 
+app.get("/", (req: Request, res: Response) => {
+  res.send("<h1>Food Delivery</h1>");
+});
 app.use(errorHandler);
 
 app.listen(8080, () => {
