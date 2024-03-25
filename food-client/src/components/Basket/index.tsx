@@ -16,6 +16,7 @@ import BasketFoods from "./BasketFoods";
 import { Button } from "@/components/core/Button";
 import { useRouter } from "next/navigation";
 import { BasketContext } from "@/context/BasketProvider";
+import myAxios from "@/utils/axios";
 
 export default function Basket() {
   const { basket }: any = useContext(BasketContext);
@@ -40,10 +41,7 @@ export default function Basket() {
           Authorization: `Bearer ${token}`,
         },
       };
-      const deleteFood = await axios.delete(
-        `http://localhost:8080/basket/${foodId}`,
-        config
-      );
+      const deleteFood = await myAxios.delete(`/basket/${foodId}`, config);
     } catch (error) {
       console.log(error);
     }

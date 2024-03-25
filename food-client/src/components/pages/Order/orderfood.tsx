@@ -1,3 +1,4 @@
+import myAxios from "@/utils/axios";
 import {
   Button,
   CardActionArea,
@@ -5,7 +6,6 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 interface IData {
@@ -17,9 +17,7 @@ const Orderfood: React.FC<IData> = ({ data }) => {
 
   const getFoodinfo = async () => {
     try {
-      const getFoodData = await axios.get(
-        `http://localhost:8080/foods/${data.food}`
-      );
+      const getFoodData = await myAxios.get(`/foods/${data.food}`);
       setBasketFood(getFoodData.data.findFood);
       console.log("dawdawdawdawaddaw", getFoodData);
     } catch (error) {

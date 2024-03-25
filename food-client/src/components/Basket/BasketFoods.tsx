@@ -9,6 +9,7 @@ import axios from "axios";
 import { config } from "process";
 import { Add, Remove } from "@mui/icons-material";
 import { BasketContext, BasketProvider } from "@/context/BasketProvider";
+import myAxios from "@/utils/axios";
 
 interface IData {
   [key: string]: any;
@@ -30,8 +31,8 @@ const BasketFoods: React.FC<IData> = ({ data }) => {
       setFoodQty(updatedQty);
 
       try {
-        const newQuantityPost = await axios.post(
-          "http://localhost:8080/basket",
+        const newQuantityPost = await myAxios.post(
+          "/basket",
           { foodId: data.food, quantity: updatedQty, totalPrice: 10 },
           config
         );
@@ -42,8 +43,8 @@ const BasketFoods: React.FC<IData> = ({ data }) => {
       const updatedQty = foodQty - 1;
       setFoodQty(updatedQty);
       try {
-        const newQuantityPost = await axios.post(
-          "http://localhost:8080/basket",
+        const newQuantityPost = await myAxios.post(
+          "/basket",
           { foodId: data.food, quantity: updatedQty, totalPrice: 10 },
           config
         );
@@ -57,9 +58,7 @@ const BasketFoods: React.FC<IData> = ({ data }) => {
 
   const getFoodinfo = async () => {
     try {
-      const getFoodData = await axios.get(
-        `http://localhost:8080/foods/${data.food}`
-      );
+      const getFoodData = await myAxios.get(`/foods/${data.food}`);
       setBasketFood(getFoodData.data.findFood);
       console.log("foodata", getFoodData);
     } catch (error) {

@@ -13,6 +13,7 @@ import {
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { CardModal } from "./CardModal";
 import axios from "axios";
+import myAxios from "@/utils/axios";
 
 interface IFoodProps {
   data: {
@@ -62,11 +63,7 @@ export const FoodCard = ({ data }: IFoodProps) => {
 
   const getIntoBasket = async () => {
     try {
-      const { data } = await axios.post(
-        "http://localhost:8080/basket",
-        newBasket,
-        config
-      );
+      const { data } = await myAxios.post("/basket", newBasket, config);
       handleClose();
       console.log("aaaaa", data);
     } catch (error) {
